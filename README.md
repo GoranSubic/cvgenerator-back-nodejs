@@ -1,2 +1,2 @@
-# act-cv_generator-be
+# act-cv-generator-be
 CV Generator app
