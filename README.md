@@ -1,2 +1,2 @@
 # act-cv-generator-be
-CV Generator app
+CV Generator app - beckend
