@@ -1,0 +1,61 @@
+version: "3"
+services:
+    pgsql:
+        image: 'postgres:16'
+        restart: unless-stopped
+        env_file:
+            - .env
+        ports:
+            - '${FORWARD_DB_PORT:-5432}:${DOCKER_DB_PORT:-5432}'
+        environment:
+            POSTGRES_USER: '${DB_USERNAME}'
+            POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
+            POSTGRES_DB: ${DB_DATABASE}
+        volumes:
+            - 'cvgen-pgsql:/var/lib/postgresql/data'
+            - ./database/:/docker-entrypoint-initdb.d/
+        networks:
+            - cvgen-net
+        healthcheck:
+            test: ["CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}"]
+            retries: 3
+            timeout: 5s
+
+    node:
+        restart: unless-stopped
+        env_file:
+            - .env
+        user: "node"
+        # working_dir: /home/node/app
+        environment:
+            NODE_ENV: production
+            DB_HOST: pgsql
+            DB_PORT: '${FORWARD_DB_PORT:-5432}'
+            DB_USER: '${DB_USERNAME}'
+            DB_PASSWORD: '${DB_PASSWORD:-secret}'
+            DB_NAME: '${DB_DATABASE}'
+        stdin_open: true
+        tty: true
+        ports: # use if it is necessary to expose the container to the host machine
+            - '${LOCAL_NODE_PORT}:${DOCKER_NODE_PORT}'
+        # command: "npm start"
+        networks:
+            - cvgen-net
+        depends_on:
+            - pgsql
+        build: ./.
+        volumes:
+            - ./:/home/node/app
+
+    adminer:
+          image: adminer
+          restart: always
+          ports:
+            - 8080:8080
+
+networks:
+    cvgen-net:
+        driver: bridge
+volumes:
+    cvgen-pgsql:
+        driver: local
