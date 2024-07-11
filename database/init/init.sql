@@ -23,3 +23,15 @@ INSERT INTO candidates (slug, first_name, last_name, gender, email) VALUES
 ('bjarne-stroustrup', 'Bjarne', 'Stroustrup', 33, 'bjarne-stroustrup@cv.com'), 
 ('martin-fowler', 'Martin', 'Fowler', 44, 'martin-fowler@cv.com'),
 ('goran-subic', 'Goran', 'Subic', 43, 'goran-subic@cv.com');
+
+CREATE TABLE public.jobs (
+    id SERIAL PRIMARY KEY,
+    enabled bool NULL DEFAULT true,
+    title varchar NOT NULL,
+    CONSTRAINT jobs_title_key UNIQUE (title)
+);
+
+INSERT INTO jobs (title) VALUES
+('Web developer 1'),
+('Web developer 2'),
+('DevOps 1');

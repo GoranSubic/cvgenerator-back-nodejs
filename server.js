@@ -5,6 +5,7 @@ const handlebars = require('express-handlebars')
 const port = envConfig.docker_node_port;
 const path = require('path');
 const candidateRouter = require('./routes/api/candidates.js');
+const jobRouter = require('./routes/api/jobs.js');
 
 // Handlebars Middleware
 app.set("view engine", 'handlebars');
@@ -32,6 +33,7 @@ app.get("/", async (req, res) => {
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/candidates', candidateRouter);
+app.use('/api/jobs', jobRouter);
 
 app.listen(port, function () {
   console.log(`Starter app listening on port ${port}!`)
