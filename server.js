@@ -1,11 +1,12 @@
-const envConfig = require("./config/env.config.js");
-const express = require('express');
+import { __dirname, __filename } from './config/common.js';
+import envConfig from "./config/env.config.js";
+import express from 'express';
+import handlebars from 'express-handlebars';
+import path from 'path';
+import candidateRouter from './routes/api/candidates.js';
+import jobRouter from './routes/api/jobs.js';
 const app = express();
-const handlebars = require('express-handlebars')
 const port = envConfig.docker_node_port;
-const path = require('path');
-const candidateRouter = require('./routes/api/candidates.js');
-const jobRouter = require('./routes/api/jobs.js');
 
 // Handlebars Middleware
 app.set("view engine", 'handlebars');

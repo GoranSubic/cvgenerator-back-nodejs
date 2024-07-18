@@ -1,6 +1,6 @@
-const express = require('express');
-const job = require('../../controllers/jobcontroller');
-const jobsQueries = require('../../database/queries/jobs');
+import express from 'express';
+import job from '../../controllers/jobcontroller.js';
+import jobsQueries from '../../database/queries/jobs.js';
 const router = express.Router();
 
 // Gets all jobs.
@@ -31,4 +31,4 @@ router.param("id", async (req, res, next, id) => {
     }
 });
 
-module.exports = router;
+export default router;

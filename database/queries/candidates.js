@@ -1,4 +1,4 @@
-const sequelize = require('../../database/sequelize/init-sequelize.js');
+import sequelize from '../../database/sequelize/init-sequelize.js';
 
 async function getCandidates() {
     const [results, metadata] = await sequelize.query('SELECT * FROM candidates WHERE enabled = :enabled', {
@@ -86,10 +86,12 @@ async function deleteCandidate(request, response) {
     return results;
 }
 
-module.exports = {
+const candidatesQueries = {
     getCandidates,
     getCandidate,
     createCandidate,
     updateCandidate,
     deleteCandidate
 }
+
+export default candidatesQueries;

@@ -1,6 +1,6 @@
-const express = require('express');
+import express from 'express';
+import candidatesQueries from '../../database/queries/candidates.js';
 const router = express.Router();
-const candidatesQueries = require('../../database/queries/candidates');
 
 // Gets all candidates.
 router.get("/", async (req, res) => {
@@ -66,4 +66,4 @@ router.param("id", async (req, res, next, id) => {
     }
 });
 
-module.exports = router;
+export default router;

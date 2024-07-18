@@ -1,6 +1,6 @@
-const jobsQueries = require('../database/queries/jobs');
+import jobsQueries from '../database/queries/jobs.js';
 
-module.exports = {
+const job = {
     get: async (req, res) => {
         try {
             const resultElements = await jobsQueries.getJobs();
@@ -50,3 +50,5 @@ module.exports = {
         }
     }
 }
+
+export default job;
