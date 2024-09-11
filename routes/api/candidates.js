@@ -50,7 +50,6 @@ router
 
 // Middleware.
 router.param("id", async (req, res, next, id) => {
-    console.log('id is: ', id);
     try {
         const resultCandidate = await candidatesQueries.getCandidate(id);
         if (resultCandidate.length === 0) {
