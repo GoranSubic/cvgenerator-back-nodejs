@@ -1,24 +1,24 @@
 import express from 'express';
-import job from '../../controllers/jobcontroller.js';
-import jobsQueries from '../../database/queries/jobs.js';
+import JobController from '../../controllers/job.controller';
+import JobsQueries from '../../../database/queries/jobs';
 const router = express.Router();
 
 // Gets all jobs.
-router.get("/", job.get);
+router.get("/", JobController.get);
 
 // Create new job.
-router.post("/", job.post);
+router.post("/", JobController.post);
 
 router
     .route("/:id")
-    .get(job.getId)
-    .put(job.put)
-    .delete(job.delete)
+    .get(JobController.getId)
+    .put(JobController.put)
+    .delete(JobController.delete)
 
 // Middleware.
 router.param("id", async (req, res, next, id) => {
     try {
-        const resultJob = await jobsQueries.getJob(id);
+        const resultJob = await JobsQueries.getJob(id);
         if (resultJob.length === 0) {
             res.status(400).send({msg: `There is no job with id ${id}`}).end();
         } else {

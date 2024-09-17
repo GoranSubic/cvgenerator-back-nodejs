@@ -1,4 +1,4 @@
-import jobsQueries from '../database/queries/jobs.js';
+import jobsQueries from '../../database/queries/jobs';
 
 const job = {
     get: async (req, res) => {

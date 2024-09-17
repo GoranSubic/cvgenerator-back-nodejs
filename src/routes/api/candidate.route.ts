@@ -1,5 +1,5 @@
 import express from 'express';
-import candidatesQueries from '../../database/queries/candidates.js';
+import candidatesQueries from '../../../database/queries/candidates';
 const router = express.Router();
 
 // Gets all candidates.

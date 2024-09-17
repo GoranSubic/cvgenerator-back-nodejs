@@ -12,4 +12,7 @@ docker compose down --volumes && docker-compose up
 npm run devStart
 
 # ORM
-    - sequelize
+    - Prisma
+# Prisma Commands
+    - npx prisma generate
+    - npx prisma migrate dev

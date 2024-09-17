@@ -1,0 +1,22 @@
+model Candidate {
+  id                Int             @id @default(autoincrement())
+  enabled           Boolean         @default(true)
+  slug              String          @db.VarChar(250) @unique
+  firstName         String          @db.VarChar(250) @map("first_name")
+  lastName          String          @db.VarChar(250) @map("last_name")
+  gender            String?         @db.VarChar(250)
+  birthDay          DateTime?       @map("birth_day")
+  email             String          @db.VarChar(250) @unique
+  description       String?         @db.VarChar(250)
+  image             String?         @db.VarChar(250)
+  address           String?         @db.VarChar(250)
+  city              String?         @db.VarChar(250)
+  state             String?         @db.VarChar(250)
+  occupation        String?         @db.VarChar(250)
+  hobbies           String?         @db.VarChar(250)
+  rememberToken     String?         @db.VarChar(250) @map("remember_token")
+  createdAt         DateTime        @default(now())  @map("created_at")
+  updatedAt         DateTime        @default(now())  @map("updated_at")
+
+  @@map("candidates")
+}
