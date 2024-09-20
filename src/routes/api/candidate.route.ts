@@ -52,12 +52,12 @@ router
 router.param("id", async (req, res, next, id) => {
     try {
         const resultCandidate = await candidatesQueries.getCandidate(id);
-        if (resultCandidate.length === 0) {
-            res.status(400).send({msg: `There is no candidate with id ${id}`}).end();
-        } else {
+        if ((resultCandidate ?? undefined) !== undefined) {
             res.locals.candidate = resultCandidate;
 
             next(); // execute next action - get/put/delete
+        } else {
+            res.status(400).send({msg: `There is no candidate with id ${id}`}).end();
         }
     } catch (error) {
         console.log('Error, resultCandidateId: ' + error.message);

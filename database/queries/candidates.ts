@@ -15,34 +15,49 @@ async function getCandidate(candidateId) {
           id: inputId,
         },
     });
-  
+
     return result;
 }
 
 async function createCandidate(request) {
-    const enabled = request.body.enabled ? request.body.enabled : null;
-    const slug = request.body.slug ? request.body.slug : null;
-    const first_name = request.body.first_name ? request.body.first_name : null;
-    const last_name = request.body.last_name ? request.body.last_name : null;
-    const email = request.body.email ? request.body.email : null;
-    const description = request.body.description ? request.body.description : null;
-    const gender = request.body.gender ? request.body.gender : null;
-    const birth_day = request.body.birth_day ? request.body.birth_day : null;
-    const image = request.body.image ? request.body.image : null;
-    const address = request.body.address ? request.body.address : null;
-    const city = request.body.city ? request.body.city : null;
-    const state = request.body.state ? request.body.state : null;
-    const occupation = request.body.occupation ? request.body.occupation : null;
-    const hobbies = request.body.hobbies ? request.body.hobbies : null;
-    const remember_token = request.body.remember_token ? request.body.remember_token : null;
+    const fields: { [key: string]: string|number|boolean } = {
+        enabled: request.body.enabled ?? null,
+        slug: request.body.slug ?? null,
+        first_name: request.body.first_name ?? null,
+        last_name: request.body.last_name ?? null,
+        email: request.body.email ?? null,
+        description: request.body.description ?? null,
+        gender: request.body.gender ?? null,
+        birth_day: request.body.birth_day ?? null,
+        image: request.body.image ?? null,
+        address: request.body.address ?? null,
+        city: request.body.city ?? null,
+        state: request.body.state ?? null,
+        occupation: request.body.occupation ?? null,
+        hobbies: request.body.hobbies ?? null,
+        remember_token: request.body.remember_token ?? null,
+    };
 
+    const valuesArr: (string | number | boolean)[] = [];
 
-    const result = await prisma.$queryRaw`
-            INSERT INTO candidates (enabled, slug, first_name, last_name, email, description, gender, birth_day,
-                    image, address, city, state, occupation, hobbies, remember_token)
-            VALUES (${enabled}, ${slug}, ${first_name}, ${last_name}, ${email}, ${description}, ${gender}, ${birth_day},
-                    ${image}, ${address}, ${city}, ${state}, ${occupation}, ${hobbies}, ${remember_token})
-            RETURNING *;`
+    let i = 1;
+    let fieldsPrepStat: (string)[] = [];
+    for (let key in fields) {
+        if (fields.hasOwnProperty(key) && (fields[key] ?? undefined) === undefined) {
+            delete fields[key];
+        } else {
+            valuesArr.push(fields[key]);
+            fieldsPrepStat.push('$' + i++);
+        }
+    }
+    const fieldsKeys = Object.keys(fields).join(', ');
+
+    const result = await prisma.$queryRawUnsafe(
+        `INSERT INTO candidates (${fieldsKeys})
+        VALUES (${fieldsPrepStat.join(',')})
+        RETURNING *;`,
+        ...valuesArr
+    );
   
     return result;
 }
@@ -50,21 +65,26 @@ async function createCandidate(request) {
 async function updateCandidate(request, response) {
     const candidateId = response.locals.candidate.id;
     
-    const enabled = request.body.enabled ? request.body.enabled : response.locals.candidate.enabled;
-    const slug = request.body.slug ? request.body.slug : response.locals.candidate.slug;
-    const first_name = request.body.first_name ? request.body.first_name : response.locals.candidate.first_name;
-    const last_name = request.body.last_name ? request.body.last_name : response.locals.candidate.last_name;
-    const email = request.body.email ? request.body.email : response.locals.candidate.email;
-    const description = request.body.description ? request.body.description : response.locals.candidate.description;
-    const gender = request.body.gender ? request.body.gender : response.locals.candidate.gender;
-    const birth_day = request.body.birth_day ? request.body.birth_day : response.locals.candidate.birth_day;
-    const image = request.body.image ? request.body.image : response.locals.candidate.image;
-    const address = request.body.address ? request.body.address : response.locals.candidate.address;
-    const city = request.body.city ? request.body.city : response.locals.candidate.city;
-    const state = request.body.state ? request.body.state : response.locals.candidate.state;
-    const occupation = request.body.occupation ? request.body.occupation : response.locals.candidate.occupation;
-    const hobbies = request.body.hobbies ? request.body.hobbies : response.locals.candidate.hobbies;
-    const remember_token = request.body.remember_token ? request.body.remember_token : response.locals.candidate.remember_token;
+    const enabled = request.body.enabled ?? false;
+    const slug = request.body.slug ?? (response.locals.candidate.slug ?? null);
+    const first_name = request.body.first_name ?? (response.locals.candidate.firstName) ?? null;
+    const last_name = request.body.last_name ?? (response.locals.candidate.lastName ?? null);
+    const email = (((request.body.email ?? undefined) !== undefined) && (request.body.email !== "")) ? request.body.email :
+        (
+            (((response.locals.candidate.email ?? undefined) !== undefined) && (response.locals.candidate.email !== "")) ?
+            response.locals.candidate.email :
+            null
+        );
+    const description = request.body.description ?? (response.locals.candidate.description ?? null);
+    const gender = request.body.gender ?? (response.locals.candidate.gender ?? null);
+    const birth_day = request.body.birth_day ?? (response.locals.candidate.birthDay ?? null);
+    const image = request.body.image ?? (response.locals.candidate.image ?? null);
+    const address = request.body.address ?? (response.locals.candidate.address ?? null);
+    const city = request.body.city ?? (response.locals.candidate.city ?? null);
+    const state = request.body.state ?? (response.locals.candidate.state ?? null);
+    const occupation = request.body.occupation ?? (response.locals.candidate.occupation ?? null);
+    const hobbies = request.body.hobbies ?? (response.locals.candidate.hobbies ?? null);
+    const remember_token = request.body.remember_token ?? (response.locals.candidate.rememberToken ?? null);
 
     const result = await prisma.candidate.update({
         where: {
