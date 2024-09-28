@@ -19,6 +19,7 @@ model Candidate {
   updatedAt         DateTime        @default(now())  @map("updated_at")
 
   jobs              JobsOnCandidates[]
+  educations        EducationsOnCandidates[]
 
   @@map("candidates")
 }

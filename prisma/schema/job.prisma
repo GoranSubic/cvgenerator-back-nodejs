@@ -13,11 +13,11 @@ model Job {
 model JobsOnCandidates {
   id            Int         @default(autoincrement()) @unique
   job           Job         @relation(fields: [jobId], references: [id])
-  jobId         Int // relation scalar field (used in the `@relation` attribute above)
+  jobId         Int         @map("job_id") // relation scalar field (used in the `@relation` attribute above)
   candidate     Candidate   @relation(fields: [candidateId], references: [id])
-  candidateId   Int // relation scalar field (used in the `@relation` attribute above)
-  assignedAt    DateTime    @default(now())
-  assignedBy    String
+  candidateId   Int         @map("candidate_id") // relation scalar field (used in the `@relation` attribute above)
+  assignedAt    DateTime    @default(now()) @map("assigned_at")
+  assignedBy    String      @map("assigned_by")
 
   @@id([jobId, candidateId])
 

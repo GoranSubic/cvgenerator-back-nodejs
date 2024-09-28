@@ -3,6 +3,7 @@ import prisma from "../database/client";
 import CandidateRouter from "./routes/api/candidate.route";
 import JobRouter from "./routes/api/job.route";
 import JobsCandidatesRouter from "./routes/api/jobsoncandidates.route";
+import EducationRouter from "./routes/api/education.route";
 import { config_env as config, node_env } from "../config/config-env";
 
 const app = express();
@@ -21,6 +22,7 @@ async function main() {
   app.use("/api/candidate", CandidateRouter);
   app.use("/api/job", JobRouter);
   app.use("/api/candidates", JobsCandidatesRouter);
+  app.use("/api/education", EducationRouter);
 
   // Catch unregistered routes
   app.all("*", (req: Request, res: Response) => {
