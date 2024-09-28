@@ -3,30 +3,52 @@ import JobsOnCandidatesController from '../../controllers/JobsOnCandidatesContro
 import JobsOnCandidatesQueries from '../../../database/queries/Candidate/JobsOnCandidates';
 const router = express.Router();
 
-// Gets all jobsoncandidates.
-// router.get("/", JobsOnCandidatesController.get);
+// Gets all jobsoncandidates relations.
+router.get("/jobs", JobsOnCandidatesController.get);
 
-// Create new job.
-router.post("/", JobsOnCandidatesController.post);
+// Create new jobsoncandidates relations.
+router.post("/jobs", JobsOnCandidatesController.post);
+
+router
+    .route("/jobs/:candidatesJobsId")
+    .get(JobsOnCandidatesController.getId)
+    .delete(JobsOnCandidatesController.delete)
+
+// Middleware.
+router.param("candidatesJobsId", async (req, res, next, id) => {
+    try {
+        const jobOnCandidate = await JobsOnCandidatesQueries.getCJ(id);
+        if ((jobOnCandidate ?? undefined) === undefined) {
+            res.status(400).send({msg: `There is no Job on Candidate with id ${id}`}).end();
+        } else {
+            res.locals.jobOnCandidate = jobOnCandidate;
+            next(); // execute next action - get/put/delete
+        }
+    } catch (error) {
+        console.log('Error, resultJobsOnCandidateId: ' + error.message);
+        res.sendStatus(500).end();
+    }
+});
 
 router
     .route("/:candidateId/job/:jobId?")
-    .get(JobsOnCandidatesController.getByJobsId)
-    .put(JobsOnCandidatesController.put)
-    .delete(JobsOnCandidatesController.delete)
+    .get(JobsOnCandidatesController.getIdRelated)
+    .put(JobsOnCandidatesController.putRelated)
+    .delete(JobsOnCandidatesController.deleteRelated)
 
 // Middleware.
 router.param("candidateId", async (req, res, next, candidateId) => {
     try {
-        const resultJobs = await JobsOnCandidatesQueries.getCandidatesJobs(candidateId, req.params.jobId);
+        const resultJobs = await JobsOnCandidatesQueries.getCandidatesJobById(candidateId, req.params.jobId);
 
         if (((resultJobs ?? undefined) === undefined) || (resultJobs.length === 0)) {
-            res.status(400).send({msg: `Candidate with id ${candidateId} has no jobs.`}).end();
+            res.status(400).send({msg: `Candidate with id ${candidateId} is not related with job.`}).end();
         } else {
-            res.locals.candidates = resultJobs;
+            res.locals.jobsOnCandidate = resultJobs;
             next(); // execute next action - get/put/delete
         }
     } catch (error) {
+        console.log('Error, resultJobsOnCandidateId related: ' + error.message);
         res.sendStatus(500).end();
     }
 });

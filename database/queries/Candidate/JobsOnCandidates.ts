@@ -1,6 +1,28 @@
+import { JobsOnCandidates } from "../../../generated/client";
 import prisma from "../../client";
 
-async function getCandidatesJobs(candidateId, jobId?) {
+async function getCJ(cjId: Number) {
+    const inputId = + cjId;
+    const result: JobsOnCandidates | null = await prisma.jobsOnCandidates.findUnique({
+        where: {
+          id: inputId,
+        },
+    });
+
+    return result;
+}
+
+async function getCandidatesJobs() {
+    const result: JobsOnCandidates[] | null = await prisma.jobsOnCandidates.findMany({
+        include: {
+          job: true,
+        },
+    });
+
+    return result;
+}
+
+async function getCandidatesJobById(candidateId, jobId?) {
     const inputCandidateId: number | null = candidateId ? (+ candidateId) : null;
     const inputJobId: number | null = jobId ? (+ jobId) : null;
 
@@ -34,6 +56,18 @@ async function getCandidatesJobs(candidateId, jobId?) {
     return result;
 }
 
+async function deleteById(request, response) {
+    const jobOnCandidateId: Number | null = response.locals.jobOnCandidate ? (+ response.locals.jobOnCandidate.id) : null;
+
+    const results = await prisma.jobsOnCandidates.delete({
+        where: {
+            id: + jobOnCandidateId,
+        },
+      })
+
+    return results;
+}
+
 async function createJobsOnCandidates(request) {
     const jobId: number | null = request.body.jobId ? (+ request.body.jobId) : null;
     const candidateId: number | null = request.body.candidateId ? (+ request.body.candidateId) : null;
@@ -53,25 +87,21 @@ async function createJobsOnCandidates(request) {
     return result;
 }
 
-async function updateJob(request, response) {
-    console.log('request.params.jobId isss: ', request.params);
-
-    const jobId: number | null = request.params.jobId ? (+ request.params.jobId) : null;
-    const candidateId: number | null = request.params.candidateId ? (+ request.params.candidateId) : null;
-
-    // const jobIdUpd: number | null = request.body.jobId ? (+ request.body.jobId) : null;
-    // const candidateIdUpd: number | null = request.body.candidateId ? (+ request.body.candidateId) : null;
+async function updateRelated(request, response) {
     const assignedByStr: string | null = request.body.assignedBy ?? null;
-    console.log('assignedByStr is: ', request.body.assignedBy);
+    let jobOnCandidateIds: Number[] | null = null;
 
-    const result = await prisma.jobsOnCandidates.update({
-        select: {
-            jobId: true,
-            candidateId: true,
-        },
+    if ((response.locals.jobsOnCandidate ?? undefined) !== undefined) {
+        jobOnCandidateIds = response.locals.jobsOnCandidate.map((candidate: JobsOnCandidates) => {
+            return candidate.id;
+        });
+    }
+
+    const result = await prisma.jobsOnCandidates.updateMany({
         where: {
-            jobId: jobId,
-            candidateId: candidateId,
+            id: {
+                in: jobOnCandidateIds
+            }
         },
         data: {
             assignedBy: assignedByStr
@@ -81,25 +111,28 @@ async function updateJob(request, response) {
     return result;
 }
 
-async function deleteJob(request, response) {
+async function deleteRelated(request, response) {
     const jobId: number | null = request.params.jobId ? (+ request.params.jobId) : null;
     const candidateId: number | null = request.params.candidateId ? (+ request.params.candidateId) : null;
 
     const result = await prisma.jobsOnCandidates.deleteMany({
         where: {
-            jobId: jobId,
+            jobId: jobId ?? {},
             candidateId: candidateId,
         },
-      });
+    });
 
     return result;
 }
 
 const jobsOnCandidates = {
+    getCJ,
     getCandidatesJobs,
+    getCandidatesJobById,
+    deleteById,
     createJobsOnCandidates,
-    updateJob,
-    deleteJob
+    updateRelated,
+    deleteRelated
 }
 
 export default jobsOnCandidates;

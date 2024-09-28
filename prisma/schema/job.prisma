@@ -11,6 +11,7 @@ model Job {
 }
 
 model JobsOnCandidates {
+  id            Int         @default(autoincrement()) @unique
   job           Job         @relation(fields: [jobId], references: [id])
   jobId         Int // relation scalar field (used in the `@relation` attribute above)
   candidate     Candidate   @relation(fields: [candidateId], references: [id])
