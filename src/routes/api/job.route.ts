@@ -1,5 +1,5 @@
 import express from 'express';
-import JobController from '../../controllers/job.controller';
+import JobController from '../../controllers/JobController';
 import JobsQueries from '../../../database/queries/jobs';
 const router = express.Router();
 
@@ -19,7 +19,7 @@ router
 router.param("id", async (req, res, next, id) => {
     try {
         const resultJob = await JobsQueries.getJob(id);
-        if (resultJob.length === 0) {
+        if ((resultJob ?? undefined) === undefined) {
             res.status(400).send({msg: `There is no job with id ${id}`}).end();
         } else {
             res.locals.job = resultJob;

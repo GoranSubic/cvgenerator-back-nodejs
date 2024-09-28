@@ -5,5 +5,20 @@ model Job {
     createdAt         DateTime        @default(now()) @map("created_at")
     updatedAt         DateTime        @default(now()) @map("updated_at")
 
+    candidates        JobsOnCandidates[]
+
     @@map("jobs")
+}
+
+model JobsOnCandidates {
+  job           Job         @relation(fields: [jobId], references: [id])
+  jobId         Int // relation scalar field (used in the `@relation` attribute above)
+  candidate     Candidate   @relation(fields: [candidateId], references: [id])
+  candidateId   Int // relation scalar field (used in the `@relation` attribute above)
+  assignedAt    DateTime    @default(now())
+  assignedBy    String
+
+  @@id([jobId, candidateId])
+
+  @@map("jobs_on_candidates")
 }
