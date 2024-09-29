@@ -43,7 +43,7 @@ router.param("candidateId", async (req, res, next, candidateId) => {
         const resultEducations = await educationsOnCandidates.getEducationsOnCandidatesByIdsRelated(candidateId, educationId);
 
         if (((resultEducations ?? undefined) === undefined) || (resultEducations.length === 0)) {
-            res.status(400).send({msg: `Candidate with id ${candidateId} is not related with educatin.`}).end();
+            res.status(400).send({msg: `Candidate with id ${candidateId} is not related with education.`}).end();
         } else {
             res.locals.educationsOnCandidate = resultEducations;
             next(); // execute next action - get/put/delete
