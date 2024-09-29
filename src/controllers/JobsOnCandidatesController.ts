@@ -23,7 +23,7 @@ const JobsOnCandidatesController = {
     delete: async (req, res) => {
         try {
             const deletedJobOnCandidate = await jobsOnCandidates.deleteById(req, res);
-            res.status(200).json({ deletedJobOnCandidateRelation: deletedJobOnCandidate });
+            res.status(200).json({ deletedJobOnCandidate: deletedJobOnCandidate });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(400).send('Error in row deletion: ' + error.message);
@@ -62,7 +62,7 @@ const JobsOnCandidatesController = {
     deleteRelated: async (req, res) => {
         try {
             const deletedJob = await jobsOnCandidates.deleteRelated(req, res);
-            res.status(200).json({ deletedJobOnCandidate: deletedJob });
+            res.status(200).json({ deletedJobOnCandidateRelated: deletedJob });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(400).send('Error in row deletion: ' + error.message);

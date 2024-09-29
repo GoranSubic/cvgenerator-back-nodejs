@@ -57,7 +57,7 @@ async function getCandidatesJobById(candidateId, jobId?) {
 }
 
 async function deleteById(request, response) {
-    const jobOnCandidateId: Number | null = response.locals.jobOnCandidate ? (+ response.locals.jobOnCandidate.id) : null;
+    const jobOnCandidateId: Number = + response.locals.jobOnCandidate.id;
 
     const results = await prisma.jobsOnCandidates.delete({
         where: {
@@ -69,8 +69,8 @@ async function deleteById(request, response) {
 }
 
 async function createJobsOnCandidates(request) {
-    const jobId: number | null = request.body.jobId ? (+ request.body.jobId) : null;
-    const candidateId: number | null = request.body.candidateId ? (+ request.body.candidateId) : null;
+    const jobId: number = + request.body.jobId;
+    const candidateId: number = + request.body.candidateId;
 
     const result = await prisma.jobsOnCandidates.create({
         data: {
@@ -104,7 +104,7 @@ async function updateRelated(request, response) {
             }
         },
         data: {
-            assignedBy: assignedByStr
+            assignedBy: assignedByStr ?? undefined
         }
     })
 
