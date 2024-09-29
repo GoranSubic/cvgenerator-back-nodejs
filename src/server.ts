@@ -7,6 +7,8 @@ import EducationRouter from "./routes/api/education.route";
 import EducationsCandidatesRouter from "./routes/api/educationsoncandidates.route";
 import CourseRouter from "./routes/api/course.route";
 import CoursesCandidatesRouter from "./routes/api/coursesoncandidates.route";
+import SkillRoter from "./routes/api/skill.route";
+import SkillsCandidatesRouter from "./routes/api/skillsoncandidates.route";
 import { config_env as config, node_env } from "../config/config-env";
 
 const app = express();
@@ -29,6 +31,8 @@ async function main() {
   app.use("/api/candidates", EducationsCandidatesRouter);
   app.use("/api/course", CourseRouter);
   app.use("/api/candidates", CoursesCandidatesRouter);
+  app.use("/api/skill", SkillRoter);
+  app.use("/api/candidates", SkillsCandidatesRouter);
 
   // Catch unregistered routes
   app.all("*", (req: Request, res: Response) => {

@@ -21,6 +21,7 @@ model Candidate {
   jobs              JobsOnCandidates[]
   educations        EducationsOnCandidates[]
   courses           CoursesOnCandidates[]
+  skills            SkillsOnCandidates[]
 
   @@map("candidates")
 }
