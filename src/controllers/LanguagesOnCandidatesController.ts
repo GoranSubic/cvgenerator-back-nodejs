@@ -1,10 +1,10 @@
-import jobsOnCandidates from '../../database/queries/Candidate/JobsOnCandidates';
+import languagesOnCandidates from '../../database/queries/Candidate/LanguagesOnCandidates';
 
-const JobsOnCandidatesController = {
+const LanguagesOnCandidatesController = {
     get: async (req, res) => {
         try {
-            const resultElements = await jobsOnCandidates.getCandidatesJobs();
-            res.status(200).json({ jobsOnCandidates: resultElements });
+            const resultElements = await languagesOnCandidates.getLanguagesOnCandidates();
+            res.status(200).json({ languagesOnCandidates: resultElements });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.sendStatus('Error in row selection: ' + error.message);
@@ -13,7 +13,7 @@ const JobsOnCandidatesController = {
 
     getId: async (req, res) => {
         try {
-            res.status(200).json({ jobOnCandidate: res.locals.jobOnCandidate });
+            res.status(200).json({ languageOnCandidate: res.locals.languageOnCandidate });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.sendStatus('Error in row selection: ' + error.message);
@@ -22,8 +22,8 @@ const JobsOnCandidatesController = {
 
     delete: async (req, res) => {
         try {
-            const deletedJobOnCandidate = await jobsOnCandidates.deleteById(req, res);
-            res.status(200).json({ deletedJobOnCandidate: deletedJobOnCandidate });
+            const deletedLanguageOnCandidate = await languagesOnCandidates.deleteLanguagesOnCandidatesById(req, res);
+            res.status(200).json({ deletedLanguageOnCandidate: deletedLanguageOnCandidate });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(400).send('Error in row deletion: ' + error.message);
@@ -32,8 +32,8 @@ const JobsOnCandidatesController = {
 
     post: async (req, res) => {
         try {
-            const jobCreated = await jobsOnCandidates.createJobsOnCandidates(req);
-            res.status(200).json({ jobCreated: jobCreated });
+            const languageCreated = await languagesOnCandidates.createLanguagesOnCandidatesRelated(req);
+            res.status(200).json({ languageCreated: languageCreated });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(400).send('Error in insert new record: ' + error.message);
@@ -42,7 +42,7 @@ const JobsOnCandidatesController = {
 
     getIdRelated: async (req, res) => {
         try {
-            res.status(200).json({ jobsOnCandidates: res.locals.jobsOnCandidate });
+            res.status(200).json({ languagesOnCandidates: res.locals.languagesOnCandidate });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.sendStatus('Error in row selection: ' + error.message);
@@ -51,8 +51,8 @@ const JobsOnCandidatesController = {
 
     putRelated: async (req, res) => {
         try {
-            const jobOnCandidateUpdated = await jobsOnCandidates.updateRelated(req, res);
-            res.status(200).json({ jobOnCandidateUpdated: jobOnCandidateUpdated });
+            const languageOnCandidateUpdated = await languagesOnCandidates.updateRelated(req, res);
+            res.status(200).json({ languageOnCandidateUpdated: languageOnCandidateUpdated });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(400).send('Error in row update: ' + error.message);
@@ -61,8 +61,8 @@ const JobsOnCandidatesController = {
 
     deleteRelated: async (req, res) => {
         try {
-            const deletedJob = await jobsOnCandidates.deleteRelated(req, res);
-            res.status(200).json({ deletedJobOnCandidateRelated: deletedJob });
+            const deletedLanguage = await languagesOnCandidates.deleteRelated(req, res);
+            res.status(200).json({ deletedLanguageOnCandidateRelated: deletedLanguage });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(400).send('Error in row deletion: ' + error.message);
@@ -70,4 +70,4 @@ const JobsOnCandidatesController = {
     }
 }
 
-export default JobsOnCandidatesController;
+export default LanguagesOnCandidatesController;

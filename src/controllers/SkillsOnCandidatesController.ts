@@ -4,7 +4,7 @@ const SkillsOnCandidatesController = {
     get: async (req, res) => {
         try {
             const resultElements = await skillsOnCandidates.getSkillsOnCandidates();
-            res.status(200).json({ skills: resultElements });
+            res.status(200).json({ skillsOnCandidates: resultElements });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.sendStatus('Error in row selection: ' + error.message);
