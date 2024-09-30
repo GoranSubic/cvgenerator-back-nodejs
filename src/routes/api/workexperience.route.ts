@@ -1,0 +1,57 @@
+import express from 'express';
+import WorkExperienceController from '../../controllers/WorkExperienceController';
+import workExperiencesQueries from '../../../database/queries/workexperience';
+const router = express.Router();
+
+// Gets all workExperiences.
+router.get("/", WorkExperienceController.get);
+
+// Gets all workExperiences.
+router.get("/candidate", WorkExperienceController.getByCandidate);
+
+// Create new workExperience.
+router.post("/", WorkExperienceController.post);
+
+router
+    .route("/:id")
+    .get(WorkExperienceController.getId)
+    .put(WorkExperienceController.put)
+    .delete(WorkExperienceController.delete)
+
+// Middleware.
+router.param("id", async (req, res, next, id) => {
+    try {
+        const resultWorkExperience = await workExperiencesQueries.getWorkExperience(id);
+        if ((resultWorkExperience ?? undefined) === undefined) {
+            res.status(400).send({msg: `There is no workExperience with id ${id}`}).end();
+        } else {
+            res.locals.workExperience = resultWorkExperience;
+            next(); // execute next action - get/put/delete
+        }
+    } catch (error) {
+        console.log('Error, resultWorkExperienceId: ' + error.message);
+        res.sendStatus(500).end();
+    }
+});
+
+router
+    .route("/candidate/:candidateId")
+    .get(WorkExperienceController.getByCandidate)
+
+// Middleware.
+router.param("candidateId", async (req, res, next, candidateId) => {
+    try {
+        const resultWorkExperiences = await workExperiencesQueries.getWorkExperiencesByCandidate(candidateId);
+        if (((resultWorkExperiences ?? undefined) === undefined) || (resultWorkExperiences.length < 1)) {
+            res.status(400).send({msg: `There is no workExperience related with candidateId ${candidateId}`}).end();
+        } else {
+            res.locals.workExperiencesByCandidate = resultWorkExperiences;
+            next(); // execute next action - get/put/delete
+        }
+    } catch (error) {
+        console.log('Error, resultWorkExperienceId: ' + error.message);
+        res.sendStatus(500).end();
+    }
+});
+
+export default router;

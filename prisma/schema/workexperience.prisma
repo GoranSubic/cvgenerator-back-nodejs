@@ -1,0 +1,18 @@
+model WorkExperience {
+    id                  Int             @id @default(autoincrement())
+
+    employer            String          @db.VarChar(250)
+    from                DateTime
+    until               DateTime?
+    position            String          @db.VarChar(250)
+    responsibilities    String?         @db.VarChar(250)
+    business            String?         @db.VarChar(250)
+
+    createdAt           DateTime        @default(now()) @map("created_at")
+    updatedAt           DateTime        @default(now()) @map("updated_at")
+
+    candidate           Candidate?      @relation(fields: [candidateId], references: [id])
+    candidateId         Int?            @map("candidate_id")
+
+    @@map("work_experience")
+}

@@ -2,6 +2,9 @@ model Course {
     id                Int             @id @default(autoincrement())
     title             String          @db.VarChar(250) @unique
 
+    createdAt         DateTime        @default(now()) @map("created_at")
+    updatedAt         DateTime        @default(now()) @map("updated_at")
+
     candidates        CoursesOnCandidates[]
 
     @@map("courses")
