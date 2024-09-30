@@ -67,7 +67,7 @@ async function updateCandidate(request, response) {
     
     const enabled = request.body.enabled ?? false;
     const slug = request.body.slug ?? (response.locals.candidate.slug ?? null);
-    const first_name = request.body.first_name ?? (response.locals.candidate.firstName) ?? null;
+    const first_name = request.body.first_name ?? (response.locals.candidate.firstName ?? null);
     const last_name = request.body.last_name ?? (response.locals.candidate.lastName ?? null);
     const email = (((request.body.email ?? undefined) !== undefined) && (request.body.email !== "")) ? request.body.email :
         (

@@ -42,7 +42,7 @@ router
 router.param("candidateId", async (req, res, next, candidateId) => {
     try {
         const resultWorkExperiences = await workExperiencesQueries.getWorkExperiencesByCandidate(candidateId);
-        if (((resultWorkExperiences ?? undefined) === undefined) || (resultWorkExperiences.length < 1)) {
+        if (((resultWorkExperiences ?? undefined) === undefined) || !Array.isArray(resultWorkExperiences) || !resultWorkExperiences.length) {
             res.status(400).send({msg: `There is no workExperience related with candidateId ${candidateId}`}).end();
         } else {
             res.locals.workExperiencesByCandidate = resultWorkExperiences;

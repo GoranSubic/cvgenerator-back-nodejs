@@ -31,7 +31,7 @@ async function createSkill(request) {
             title: title,
         }
     });
-  
+
     return result;
 }
 
