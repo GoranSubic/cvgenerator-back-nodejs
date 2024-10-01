@@ -13,6 +13,7 @@ import LanguageRoter from "./routes/api/language.route";
 import LanguagesCandidatesRouter from "./routes/api/languagesoncandidates.route";
 import WorkExperienceRoter from "./routes/api/workexperience.route";
 import UserRoter from "./routes/api/user.route";
+import UsersCandidatesRouter from "./routes/api/userscandidates.route";
 import { config_env as config, node_env } from "../config/config-env";
 
 const app = express();
@@ -41,6 +42,7 @@ async function main() {
   app.use("/api/candidates", LanguagesCandidatesRouter);
   app.use("/api/work-experience", WorkExperienceRoter);
   app.use("/api/user", UserRoter);
+  app.use("/api/candidates", UsersCandidatesRouter);
 
   // Catch unregistered routes
   app.all("*", (req: Request, res: Response) => {

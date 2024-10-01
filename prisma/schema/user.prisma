@@ -14,5 +14,29 @@ model User {
   createdAt         DateTime        @default(now())   @map("created_at")
   updatedAt         DateTime        @default(now())   @map("updated_at")
 
+  candidates        UsersCandidates[]
+
   @@map("users")
+}
+
+enum Action {
+  CREATE
+  UPDATE
+}
+model UsersCandidates {
+  id                Int             @default(autoincrement()) @unique
+  user              User            @relation(fields: [userId], references: [id])
+  userId            Int             @map("user_id") // relation scalar field (used in the `@relation` attribute above)
+  candidate         Candidate       @relation(fields: [candidateId], references: [id])
+  candidateId       Int             @map("candidate_id") // relation scalar field (used in the `@relation` attribute above)
+
+  action            Action          @default(UPDATE)
+  updatedFields     String?         @map("updated_fields")
+
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @default(now()) @map("updated_at")
+
+  @@id([userId, candidateId])
+
+  @@map("users_on_candidates")
 }
