@@ -1,4 +1,5 @@
 import express from 'express';
+import CandidateController from '../../controllers/CandidateController';
 import candidatesQueries from '../../../database/queries/candidates';
 const router = express.Router();
 
@@ -26,27 +27,9 @@ router.post("/", async (req, res) => {
 
 router
     .route("/:id")
-    .get((req, res) => {
-        res.status(200).json({ candidate: res.locals.candidate });
-    })
-    .put(async (req, res) => {
-        try {
-            const candidateUpdated = await candidatesQueries.updateCandidate(req, res);
-            res.status(200).json({ candidateUpdated: candidateUpdated });
-        } catch (error) {
-            console.log('Error:' + error.message);
-            res.status(400).send('Error in row update:' + error.message);
-        }
-    })
-    .delete(async (req, res) => {
-        try {
-            const deletedCandidate = await candidatesQueries.deleteCandidate(req, res);
-            res.status(200).json({ deletedCandidate: deletedCandidate });
-        } catch (error) {
-            console.log('Error:' + error.message);
-            res.status(400).send('Error in row deletion:' + error.message);
-        }
-    });
+    .get(CandidateController.getId)
+    .put(CandidateController.put)
+    .delete(CandidateController.delete)
 
 // Middleware.
 router.param("id", async (req, res, next, id) => {
