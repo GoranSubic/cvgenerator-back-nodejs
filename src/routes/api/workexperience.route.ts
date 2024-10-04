@@ -6,9 +6,6 @@ const router = express.Router();
 // Gets all workExperiences.
 router.get("/", WorkExperienceController.get);
 
-// Gets all workExperiences.
-router.get("/candidate", WorkExperienceController.getByCandidate);
-
 // Create new workExperience.
 router.post("/", WorkExperienceController.post);
 

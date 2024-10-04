@@ -25,6 +25,7 @@ model Candidate {
   skills            SkillsOnCandidates[]
   languages         LanguagesOnCandidates[]
   workExperiences   WorkExperience[]
+  cv                Cv[]
 
   @@map("candidates")
 }
