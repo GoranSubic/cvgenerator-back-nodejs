@@ -24,7 +24,7 @@ async function getUser(userId) {
     return result;
 }
 
-async function createUser(request, response) {
+async function createUser(request) {
     const enabled: boolean = request.body.enabled ?? null;
     const slug: string = request.body.slug ?? null;
     const firstName: string = request.body.firstName ?? null;
@@ -36,29 +36,25 @@ async function createUser(request, response) {
     const image: string = request.body.image ?? null;
     const rememberToken: string = request.body.rememberToken ?? null;
 
-    try {
-        const salt = await bcrypt.genSalt();
-        const hashedPassword = await bcrypt.hash(password, salt);
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-        const result = await prisma.user.create({
-            data: {
-                enabled: enabled,
-                slug: slug,
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                emailVerifiedAt: emailVerifiedAt,
-                password: hashedPassword,
-                description: description,
-                image: image,
-                rememberToken: rememberToken,
-            }
-        });
+    const result = await prisma.user.create({
+        data: {
+            enabled: enabled,
+            slug: slug,
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            emailVerifiedAt: emailVerifiedAt,
+            password: hashedPassword,
+            description: description,
+            image: image,
+            rememberToken: rememberToken,
+        }
+    });
 
-        return result;
-    } catch (error) {
-        response.status(400).send('Error in row creation: ' + error.message);
-    }
+    return result;
 }
 
 async function updateUser(request, response) {
@@ -80,36 +76,31 @@ async function updateUser(request, response) {
     const image = request.body.image ?? (response.locals.user.image ?? null);
     const rememberToken = request.body.rememberToken ?? (response.locals.user.rememberToken ?? null);
 
-    try {
-        const salt = await bcrypt.genSalt();
+    const salt = await bcrypt.genSalt();
+    const hashedPassword: string = password ?
+        await bcrypt.hash(password, salt) :
+        (response.locals.user.password ?? null);
 
-        const hashedPassword: string = password ?
-            await bcrypt.hash(password, salt) :
-            (response.locals.user.password ?? null);
+    const result = await prisma.user.update({
+        where: {
+        id: + userId,
+        },
+        data: {
+            enabled: enabled,
+            slug: slug,
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            emailVerifiedAt: emailVerifiedAt,
+            password: hashedPassword,
+            description: description,
+            image: image,
+            rememberToken: rememberToken,
+            updatedAt: new Date,
+        },
+    })
 
-        const result = await prisma.user.update({
-            where: {
-            id: + userId,
-            },
-            data: {
-                enabled: enabled,
-                slug: slug,
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                emailVerifiedAt: emailVerifiedAt,
-                password: hashedPassword,
-                description: description,
-                image: image,
-                rememberToken: rememberToken,
-                updatedAt: new Date,
-            },
-        })
-
-        return result;
-    } catch (error) {
-        response.status(400).send('Error in row update: ' + error.message);
-    }
+    return result;
 }
 
 async function deleteUser(request, response) {

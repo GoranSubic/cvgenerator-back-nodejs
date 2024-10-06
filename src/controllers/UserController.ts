@@ -14,7 +14,7 @@ const UserController = {
     post: async (req, res) => {
         try {
             const userCreated = await usersQueries.createUser(req);
-            res.status(200).json({ userCreated: userCreated });
+            res.status(201).json({ userCreated: userCreated });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(400).send('Error in insert new record: ' + error.message);
