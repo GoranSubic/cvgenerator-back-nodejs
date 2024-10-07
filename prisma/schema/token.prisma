@@ -1,0 +1,13 @@
+model Token {
+    id                  String          @id @unique @default(uuid())
+    hashedToken         String          @db.VarChar(250) @map("hashed_token")
+    revoked             Boolean         @default(false)
+
+    createdAt           DateTime        @default(now()) @map("created_at")
+    updatedAt           DateTime        @default(now()) @map("updated_at")
+
+    user                User?           @relation(fields: [userId], references: [id])
+    userId              Int?            @map("user_id")
+
+    @@map("tokens")
+}

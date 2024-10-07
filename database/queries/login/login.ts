@@ -1,33 +1,34 @@
-import { User } from "../../../generated/client";
 import prisma from "../../client";
 import bcrypt from "bcrypt";
 
-async function loginUser(request) {
-    const email = request.body.email ?? null;
-
-    const user: User | null = await prisma.user.findUnique({
+async function findUserByEmail(email) {
+    return prisma.user.findUnique({
         where: {
-        email: email,
+            email
         },
     });
+}
 
-    if (user == null) {
-        const err = new Error('Cannot find user.');
-        err.status = 404;
-        throw err;
-    }
+// // On /register route
+// async function createUserByEmailAndPassword(user) {
+//     user.password = bcrypt.hashSync(user.password, 12);
+//     return prisma.user.create({
+//         data: user,
+//     });
+// }
 
-    if (await bcrypt.compare(request.body.password, user.password)) {
-        return user;
-    } else {
-        const err = new Error('Not allowed!');
-        err.status = 401;
-        throw err;
-    }
+async function findUserById(id: number) {
+    return prisma.user.findUnique({
+        where: {
+            id
+        },
+    });
 }
 
 const loginQueries = {
-    loginUser
+    findUserByEmail,
+    // createUserByEmailAndPassword,
+    findUserById
 }
 
 export default loginQueries;

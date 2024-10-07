@@ -26,7 +26,9 @@ const config_env = {
       "idle": 10000
     },
     "local_node_port": env.LOCAL_NODE_PORT,
-    "docker_node_port": env.DOCKER_NODE_PORT
+    "docker_node_port": env.DOCKER_NODE_PORT,
+    "access_token_secret": env.ACCESS_TOKEN_SECRET,
+    "refresh_token_secret": env.REFRESH_TOKEN_SECRET
   },
   "test": {
     "username": env.DB_USERNAME,
@@ -42,7 +44,9 @@ const config_env = {
       "idle": 10000
     },
     "local_node_port": env.LOCAL_NODE_PORT,
-    "docker_node_port": env.DOCKER_NODE_PORT
+    "docker_node_port": env.DOCKER_NODE_PORT,
+    "access_token_secret": env.ACCESS_TOKEN_SECRET,
+    "refresh_token_secret": env.REFRESH_TOKEN_SECRET
   },
   "production": {
     "username": env.PROD_DB_USERNAME,
@@ -58,7 +62,9 @@ const config_env = {
       "idle": 10000
     },
     "local_node_port": env.PROD_LOCAL_NODE_PORT,
-    "docker_node_port": env.PROD_DOCKER_NODE_PORT
+    "docker_node_port": env.PROD_DOCKER_NODE_PORT,
+    "access_token_secret": env.ACCESS_TOKEN_SECRET,
+    "refresh_token_secret": env.REFRESH_TOKEN_SECRET
   }
 }
 

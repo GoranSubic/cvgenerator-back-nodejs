@@ -44,8 +44,8 @@ async function main() {
   app.use("/api/language", LanguageRoter);
   app.use("/api/candidates", LanguagesCandidatesRouter);
   app.use("/api/work-experience", WorkExperienceRoter);
-  app.use("/api/user", UserRoter);
   app.use("/api/user", LoginRouter);
+  app.use("/api/user", UserRoter);
   app.use("/api/candidates", UsersCandidatesRouter);
   app.use("/api/cv", CvRouter);
   app.use("/api/cvs", UsersCvsRouter);

@@ -6,7 +6,7 @@
   "main": "server.ts",
   "scripts": {
     "start": "node --trace-warnings --loader ts-node/esm --inspect src/server.ts",
-    "dev": "nodemon --exec node --loader ts-node/esm src/server.ts",
+    "dev": "nodemon --exec node --trace-warnings --loader ts-node/esm src/server.ts",
     "db:migrate": "npx prisma migrate dev --name user-entity --create-only && npx prisma generate",
     "db:push": "npx prisma db push"
   },
@@ -35,16 +35,19 @@
   },
   "dependencies": {
     "@prisma/client": "^5.20.0",
+    "@types/jsonwebtoken": "^9.0.7",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.19.2",
     "express-handlebars": "^7.1.2",
+    "jsonwebtoken": "^9.0.2",
     "nodemon": "^3.1.4",
     "pg": "^8.11.0",
     "pg-hstore": "^2.3.4",
     "pgsql": "^1.0.0",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "uuid": "^10.0.0"
   }
 }
