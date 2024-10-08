@@ -6,6 +6,9 @@ const router = express.Router();
 // Gets all UsersCandidates relations.
 router.get("/users", UsersCandidatesController.get);
 
+// Create new skillsOnCandidates relations.
+router.post("/skills", UsersCandidatesController.post);
+
 router
     .route("/users/:usersCandidatesId")
     .get(UsersCandidatesController.getId)

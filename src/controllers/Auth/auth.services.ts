@@ -35,7 +35,6 @@ const AuthService = {
     },
 
     revokeTokens: async (userId: number) => {
-        console.log('userId is: ', userId);
         return prisma.token.updateMany({
             where: {
                 userId: userId

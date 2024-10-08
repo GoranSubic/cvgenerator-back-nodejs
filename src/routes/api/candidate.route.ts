@@ -1,7 +1,10 @@
 import express from 'express';
 import CandidateController from '../../controllers/CandidateController';
 import candidatesQueries from '../../../database/queries/candidates';
+import AuthMiddleware from '../../middleware/auth.middleware';
 const router = express.Router();
+
+router.all('*', AuthMiddleware.isAuthenticated);
 
 // Gets all candidates.
 router.get("/", async (req, res) => {
@@ -28,7 +31,7 @@ router.post("/", async (req, res) => {
 router
     .route("/:id")
     .get(CandidateController.getId)
-    .put(CandidateController.put)
+    .put(CandidateController.put, AuthMiddleware.isAuthenticated)
     .delete(CandidateController.delete)
 
 // Middleware.

@@ -18,6 +18,7 @@ import CvRouter from "./routes/api/cv.route";
 import UsersCvsRouter from "./routes/api/userscvs.route";
 import AuthRouter from "./routes/api/auth.route";
 import { config_env as config, node_env } from "../config/config-env";
+import AuthMiddleware from "./middleware/auth.middleware";
 
 const app = express();
 const envConfig = config[node_env];
@@ -51,7 +52,7 @@ async function main() {
   app.use("/api/cvs", UsersCvsRouter);
 
   // Catch unregistered routes
-  app.all("*", (req: Request, res: Response) => {
+  app.all("*", AuthMiddleware.isAuthenticated, (req: Request, res: Response) => {
     res.status(404).json({ error: `Route ${req.originalUrl} not found` });
   });
 

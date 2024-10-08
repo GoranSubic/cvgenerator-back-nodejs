@@ -1,5 +1,6 @@
 import { Candidate } from "../../generated/client";
 import prisma from "../client";
+import usersCandidates from "./Candidate/UsersCandidates";
 
 async function getCandidates() {
     const results = await prisma.$queryRaw`SELECT id, enabled, first_name, last_name, email FROM candidates WHERE enabled = true`;
@@ -20,6 +21,8 @@ async function getCandidate(candidateId) {
 }
 
 async function createCandidate(request) {
+    const user = request.payload;
+
     const fields: { [key: string]: string|number|boolean } = {
         enabled: request.body.enabled ?? null,
         slug: request.body.slug ?? null,
@@ -58,11 +61,17 @@ async function createCandidate(request) {
         RETURNING *;`,
         ...valuesArr
     );
-  
+
+    if (user != undefined && user.id) {
+        const userCandidateRelated = await usersCandidates.createdCandidates(user.id, result[0].id);
+        result.push(userCandidateRelated);
+    }
+
     return result;
 }
 
 async function updateCandidate(request, response) {
+    const user = request.payload;
     const candidateId = response.locals.candidate.id;
     
     const enabled = request.body.enabled ?? false;
@@ -86,7 +95,7 @@ async function updateCandidate(request, response) {
     const hobbies = request.body.hobbies ?? (response.locals.candidate.hobbies ?? null);
     const remember_token = request.body.remember_token ?? (response.locals.candidate.rememberToken ?? null);
 
-    const result = await prisma.candidate.update({
+    const resultCandidate = await prisma.candidate.update({
         where: {
           id: + candidateId,
         },
@@ -107,21 +116,32 @@ async function updateCandidate(request, response) {
             hobbies: hobbies,
             rememberToken: remember_token
         },
-      })
+    });
 
-    return result;
+    if (user != undefined && user.id) {
+        const userCandidateRelated = await usersCandidates.updatedCandidates(user.id, resultCandidate.id, request.body);
+        resultCandidate.userCandidateRelated = userCandidateRelated;
+    }
+
+    return resultCandidate;
 }
 
 async function deleteCandidate(request, response) {
+    const user = request.payload;
     const candidateId = response.locals.candidate.id;
     
-    const results = await prisma.candidate.delete({
+    const resultDeleted = await prisma.candidate.delete({
         where: {
             id: + candidateId,
         },
-      })
+    });
 
-    return results;
+    if (user != undefined && user.id) {
+        const userCandidateRelated = await usersCandidates.updatedCandidates(user.id, resultDeleted.id, request.body, 'deleted');
+        resultDeleted.userCandidateRelated = userCandidateRelated;
+    }
+
+    return resultDeleted;
 }
 
 const candidatesQueries = {

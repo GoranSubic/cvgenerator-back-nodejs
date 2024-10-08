@@ -1,3 +1,4 @@
+import { JsonObject } from "@prisma/client/runtime/library";
 import { UsersCandidates } from "../../../generated/client";
 import prisma from "../../client";
 
@@ -40,10 +41,51 @@ async function getUsersCandidatesByIdsRelated(candidateId: number, userId?: numb
     return result;
 }
 
+async function createdCandidates(payloadUserId: number, resultCandidateId: number) {
+    const userId: number = + payloadUserId;
+    const candidateId: number = + resultCandidateId;
+
+    const result = await prisma.usersCandidates.create({
+        data: {
+            action: 'CREATE',
+            candidate: {
+                connect: {id: candidateId},
+            },
+            user: {
+                connect: {id: userId},
+            }
+        }
+    });
+
+    return result;
+}
+
+async function updatedCandidates(payloadUserId: number, resultCandidateId: number, updatedFields: JsonObject, resultAction: string | undefined) {
+    const userId: number = + payloadUserId;
+    const candidateId: number = + resultCandidateId;
+
+    const result = await prisma.usersCandidates.create({
+        data: {
+            action: (resultAction != undefined && resultAction == 'deleted') ? 'DELETE' : 'UPDATE',
+            updatedFields: updatedFields,
+            candidate: {
+                connect: {id: candidateId},
+            },
+            user: {
+                connect: {id: userId},
+            }
+        }
+    });
+
+    return result;
+}
+
 const usersCandidates = {
     getUserCandidate,
     getUsersCandidates,
     getUsersCandidatesByIdsRelated,
+    createdCandidates,
+    updatedCandidates
 }
 
 export default usersCandidates;
