@@ -4,10 +4,12 @@ import { config_env as config, node_env } from "../../config/config-env";
 
 const envConfig = config[node_env];
 const accessTokenSecret = envConfig.access_token_secret;
+const accessTokenLifetime = envConfig.access_token_lifetime;
 const refreshTokenSecret = envConfig.refresh_token_secret;
+const refreshTokenLifetime = envConfig.refresh_token_lifetime;
 
 async function generateAccessToken(user: User) {
-    return jwt.sign(user, accessTokenSecret, { expiresIn: '60s' });
+    return jwt.sign(user, accessTokenSecret, { expiresIn: accessTokenLifetime });
 }
 
 async function generateRefreshToken(user, jti) {
@@ -15,7 +17,7 @@ async function generateRefreshToken(user, jti) {
         userId: user.id,
         jti
     }, refreshTokenSecret, {
-        expiresIn: '8h',
+        expiresIn: refreshTokenLifetime,
     });
 }
 

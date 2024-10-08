@@ -28,7 +28,9 @@ const config_env = {
     "local_node_port": env.LOCAL_NODE_PORT,
     "docker_node_port": env.DOCKER_NODE_PORT,
     "access_token_secret": env.ACCESS_TOKEN_SECRET,
-    "refresh_token_secret": env.REFRESH_TOKEN_SECRET
+    "access_token_lifetime": env.ACCESS_TOKEN_LIFETIME,
+    "refresh_token_secret": env.REFRESH_TOKEN_SECRET,
+    "refresh_token_lifetime": env.REFRESH_TOKEN_LIFETIME
   },
   "test": {
     "username": env.DB_USERNAME,
@@ -46,7 +48,9 @@ const config_env = {
     "local_node_port": env.LOCAL_NODE_PORT,
     "docker_node_port": env.DOCKER_NODE_PORT,
     "access_token_secret": env.ACCESS_TOKEN_SECRET,
-    "refresh_token_secret": env.REFRESH_TOKEN_SECRET
+    "access_token_lifetime": env.ACCESS_TOKEN_LIFETIME,
+    "refresh_token_secret": env.REFRESH_TOKEN_SECRET,
+    "refresh_token_lifetime": env.REFRESH_TOKEN_LIFETIME
   },
   "production": {
     "username": env.PROD_DB_USERNAME,
@@ -64,7 +68,9 @@ const config_env = {
     "local_node_port": env.PROD_LOCAL_NODE_PORT,
     "docker_node_port": env.PROD_DOCKER_NODE_PORT,
     "access_token_secret": env.ACCESS_TOKEN_SECRET,
-    "refresh_token_secret": env.REFRESH_TOKEN_SECRET
+    "access_token_lifetime": env.ACCESS_TOKEN_LIFETIME,
+    "refresh_token_secret": env.REFRESH_TOKEN_SECRET,
+    "refresh_token_lifetime": env.REFRESH_TOKEN_LIFETIME
   }
 }
 
