@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from 'uuid';
 import { config_env as config, node_env } from "../../../config/config-env";
-import loginsQueries from '../../../database/queries/login/login';
+import authQueries from '../../../database/queries/auth/auth';
 import AuthService from "./auth.services";
 import HashToken from '../../utils/hashToken';
 import generateTokens from '../../utils/jwt';
@@ -10,7 +10,7 @@ import generateTokens from '../../utils/jwt';
 const envConfig = config[node_env];
 const refreshTokenSecret = envConfig.refresh_token_secret;
 
-class LoginController {
+class AuthController {
     login = async (req, res) => {
         try {
             const { email, password } = req.body;
@@ -20,7 +20,7 @@ class LoginController {
                 throw new Error('You must provide an email and a password.');
             }
 
-            const existingUser = await loginsQueries.findUserByEmail(email);
+            const existingUser = await authQueries.findUserByEmail(email);
 
             if (!existingUser) {
                 res.status(403);
@@ -64,7 +64,7 @@ class LoginController {
                 throw new Error('Unauthorized');
             }
 
-            const user = await loginsQueries.findUserById(payload.userId);
+            const user = await authQueries.findUserById(payload.userId);
             if (!user) {
                 res.status(401);
                 throw new Error('Unauthorized');
@@ -98,4 +98,4 @@ class LoginController {
     };
 }
 
-export default new LoginController();
+export default new AuthController();

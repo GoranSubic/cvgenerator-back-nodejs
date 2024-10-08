@@ -25,10 +25,10 @@ async function findUserById(id: number) {
     });
 }
 
-const loginQueries = {
+const authQueries = {
     findUserByEmail,
     // createUserByEmailAndPassword,
     findUserById
 }
 
-export default loginQueries;
+export default authQueries;
