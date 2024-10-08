@@ -5,10 +5,9 @@ import { config_env as config, node_env } from "../../../config/config-env";
 import loginsQueries from '../../../database/queries/login/login';
 import AuthService from "./auth.services";
 import HashToken from '../../utils/hashToken';
-import { User } from "../../../generated/client";
+import generateTokens from '../../utils/jwt';
 
 const envConfig = config[node_env];
-const accessTokenSecret = envConfig.access_token_secret;
 const refreshTokenSecret = envConfig.refresh_token_secret;
 
 class LoginController {
@@ -35,7 +34,7 @@ class LoginController {
             }
 
             const jti = uuidv4();
-            const { accessToken, refreshToken } = await this.generateTokens(existingUser, jti);
+            const { accessToken, refreshToken } = await generateTokens(existingUser, jti);
             await AuthService.addRefreshTokenToWhitelist({jti, refreshToken, userId: existingUser.id});
 
             res.status(200).json({ accessToken: accessToken, refreshToken: refreshToken });
@@ -75,7 +74,7 @@ class LoginController {
             await AuthService.deleteRefreshToken(savedRefreshToken.id);
 
             const jti = uuidv4();
-            const { accessToken, refreshToken: newRefreshToken } = await this.generateTokens(user, jti);
+            const { accessToken, refreshToken: newRefreshToken } = await generateTokens(user, jti);
             await AuthService.addRefreshTokenToWhitelist({ jti, refreshToken: newRefreshToken, userId: user.id });
 
             res.json({
@@ -97,29 +96,6 @@ class LoginController {
             next(err);
         }
     };
-
-    private generateAccessToken = async(user: User) => {
-        return jwt.sign(user, accessTokenSecret, { expiresIn: '60s' });
-    }
-
-    private generateRefreshToken = async(user, jti) => {
-        return jwt.sign({
-            userId: user.id,
-            jti
-        }, refreshTokenSecret, {
-            expiresIn: '8h',
-        });
-    }
-
-    private generateTokens = async(user: User, jti: string) => {
-        const accessToken = await this.generateAccessToken(user);
-        const refreshToken = await this.generateRefreshToken(user, jti);
-
-        return {
-            accessToken,
-            refreshToken,
-        };
-    }
 }
 
 export default new LoginController();
