@@ -11,6 +11,32 @@ const envConfig = config[node_env];
 const refreshTokenSecret = envConfig.refresh_token_secret;
 
 class AuthController {
+    register = async (req, res, next) => {
+        try {
+            const { email, password, firstName, lastName } = req.body;
+            if (!email || !password) {
+                res.status(400);
+                throw new Error('You must provide an email and a password.');
+            }
+
+            const existingUser = await authQueries.findUserByEmail(email);
+
+            if (existingUser) {
+                res.status(400);
+                throw new Error('Email already in use.');
+            }
+
+            const user = await authQueries.createUserByEmailAndPassword({ email, password, firstName, lastName });
+            const jti = uuidv4();
+            const { accessToken, refreshToken } = await generateTokens(user, jti);
+            await AuthService.addRefreshTokenToWhitelist({ jti, refreshToken, userId: user.id });
+
+            res.status(200).json({ accessToken: accessToken, refreshToken: refreshToken });
+        } catch (error: any) {
+            res.status(error.status || 500).send('\n Error register user: ' + error.message);
+        }
+    };
+
     login = async (req, res) => {
         try {
             const { email, password } = req.body;

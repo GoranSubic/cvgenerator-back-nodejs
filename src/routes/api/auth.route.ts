@@ -2,6 +2,9 @@ import express from 'express';
 import AuthController from '../../controllers/Auth/AuthController';
 const router = express.Router();
 
+// Register user.
+router.post("/register", AuthController.register);
+
 // Login user.
 router.post("/login", AuthController.login);
 
