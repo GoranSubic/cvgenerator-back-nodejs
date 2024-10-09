@@ -11,7 +11,7 @@ const envConfig = config[node_env];
 const refreshTokenSecret = envConfig.refresh_token_secret;
 
 class AuthController {
-    register = async (req, res, next) => {
+    async register(req, res, next) {
         try {
             const { email, password, firstName, lastName } = req.body;
             if (!email || !password) {
@@ -32,31 +32,29 @@ class AuthController {
             await AuthService.addRefreshTokenToWhitelist({ jti, refreshToken, userId: user.id });
 
             res.status(200).json({ accessToken: accessToken, refreshToken: refreshToken });
-        } catch (error: any) {
-            res.status(error.status || 500).send('\n Error register user: ' + error.message);
+        } catch (error) {
+            next(error);
         }
     };
 
-    login = async (req, res) => {
+    async login(req, res, next) {
         try {
             const { email, password } = req.body;
 
             if (!email || !password) {
-                res.status(400);
-                throw new Error('You must provide an email and a password.');
+                return res.status(400).json({ error: 'You must provide an email and a password.' });
             }
 
             const existingUser = await authQueries.findUserByEmail(email);
 
             if (!existingUser) {
-                res.status(403);
-                throw new Error('Invalid login credentials.');
+                return res.status(404).json({ error: 'No user found with this email.' });
             }
 
             const validPassword = await bcrypt.compare(password, existingUser.password);
+
             if (!validPassword) {
-                res.status(403);
-                throw new Error('Invalid login credentials.');
+                return res.status(403).json({ error: 'Invalid login credentials.' });
             }
 
             const jti = uuidv4();
@@ -64,36 +62,45 @@ class AuthController {
             await AuthService.addRefreshTokenToWhitelist({jti, refreshToken, userId: existingUser.id});
 
             res.status(200).json({ accessToken: accessToken, refreshToken: refreshToken });
-        } catch (error: Error) {
-            res.status(error.status || 500).send('\n Error login user: ' + error.message);
+        } catch (error) {
+            next(error);
         }
     };
 
-    refreshToken = async (req, res, next) => {
+    async logout(req, res, next) {
         try {
             const { refreshToken } = req.body;
+            await AuthService.deleteRefreshToken(refreshToken);
+            res.status(200).json({ message: 'Successfully logged out.' });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async refreshToken(req, res, next) {
+        try {
+            const { refreshToken } = req.body;
+
             if (!refreshToken) {
-                res.status(400);
-                throw new Error('Missing refresh token.');
+                return res.status(400).json({ error: 'Missing refresh token.' });
             }
+
             const payload = jwt.verify(refreshToken, refreshTokenSecret);
             const savedRefreshToken = await AuthService.findRefreshTokenById(payload.jti);
 
-            if (!savedRefreshToken || savedRefreshToken.revoked === true) {
-                res.status(401);
-                throw new Error('Unauthorized');
+            if (!savedRefreshToken || savedRefreshToken.revoked) {
+                return res.status(401).json({ error: 'Invalid refresh token.' });
             }
 
             const hashedToken = await HashToken.hashToken(refreshToken);
             if (hashedToken !== savedRefreshToken.hashedToken) {
-                res.status(401);
-                throw new Error('Unauthorized');
+                return res.status(401).json({ error: 'Invalid refresh token.' });
             }
 
             const user = await authQueries.findUserById(payload.userId);
+
             if (!user) {
-                res.status(401);
-                throw new Error('Unauthorized');
+                return res.status(404).json({ error: 'User not found.' });
             }
 
             // refreshToken revoked set to true
@@ -103,17 +110,14 @@ class AuthController {
             const { accessToken, refreshToken: newRefreshToken } = await generateTokens(user, jti);
             await AuthService.addRefreshTokenToWhitelist({ jti, refreshToken: newRefreshToken, userId: user.id });
 
-            res.json({
-                accessToken,
-                refreshToken: newRefreshToken
-            });
-        } catch (err) {
-            next(err);
+            res.status(200).json({ accessToken: accessToken, refreshToken: newRefreshToken });
+        } catch (error) {
+            next(error);
         }
       };
 
     // Move this logic where needed to revoke the tokens(ex: on password reset)
-    revokeRefreshTokens = async (req, res, next) => {
+    async revokeRefreshTokens(req, res, next) {
         try {
             const { userId } = req.body;
             await AuthService.revokeTokens(userId);

@@ -10,7 +10,7 @@ router.post("/register", AuthController.register);
 router.post("/login", AuthController.login);
 
 // Create new token.
-router.post("/token", AuthMiddleware.isAuthenticated, AuthController.refreshToken);
+router.post("/token", AuthController.refreshToken);
 
 // Revoke tokens - disable tokens related to user id.
 router.delete("/revoke-refresh-tokens", AuthMiddleware.isAuthenticated, AuthController.revokeRefreshTokens);
