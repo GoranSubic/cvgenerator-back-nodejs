@@ -32,10 +32,12 @@ app.get("/", async (req, res) => {
 async function main() {
   app.use(express.json());
 
+  // Register API routes
   app.use("/api/user", AuthRouter);
+
+  // Route Authorization Middleware.
   app.all('*', AuthMiddleware.isAuthenticated);
 
-  // Register API routes
   app.use("/api/candidate", CandidateRouter);
   app.use("/api/job", JobRouter);
   app.use("/api/candidates", JobsCandidatesRouter);
