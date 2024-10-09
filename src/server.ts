@@ -32,6 +32,9 @@ app.get("/", async (req, res) => {
 async function main() {
   app.use(express.json());
 
+  app.use("/api/user", AuthRouter);
+  app.all('*', AuthMiddleware.isAuthenticated);
+
   // Register API routes
   app.use("/api/candidate", CandidateRouter);
   app.use("/api/job", JobRouter);
@@ -45,14 +48,13 @@ async function main() {
   app.use("/api/language", LanguageRoter);
   app.use("/api/candidates", LanguagesCandidatesRouter);
   app.use("/api/work-experience", WorkExperienceRoter);
-  app.use("/api/user", AuthRouter);
   app.use("/api/user", UserRoter);
   app.use("/api/candidates", UsersCandidatesRouter);
   app.use("/api/cv", CvRouter);
   app.use("/api/cvs", UsersCvsRouter);
 
   // Catch unregistered routes
-  app.all("*", AuthMiddleware.isAuthenticated, (req: Request, res: Response) => {
+  app.all("*", (req: Request, res: Response) => {
     res.status(404).json({ error: `Route ${req.originalUrl} not found` });
   });
 
