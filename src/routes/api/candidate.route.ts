@@ -14,16 +14,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-// Insert new candidate.
-router.post("/", async (req, res) => {
-    try {
-        const candidateCreated = await candidatesQueries.createCandidate(req);
-        res.status(200).json({ candidateCreated: candidateCreated });
-    } catch (error) {
-        console.log('Error:' + error.message);
-        res.status(400).send('Error in insert new record:' + error.message);
-    }
-});
+router.post("/", CandidateController.post);
 
 router
     .route("/:id")

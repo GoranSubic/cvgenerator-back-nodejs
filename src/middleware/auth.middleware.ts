@@ -16,7 +16,7 @@ const AuthMiddleware = {
         try {
             const token = authorization.split(' ')[1];
             const payload = jwt.verify(token, accessTokenSecret);
-            req.payload = payload;
+            req.user = payload;
         } catch (err) {
             res.status(401);
             if (err.name === 'TokenExpiredError') {

@@ -1,4 +1,5 @@
 import candidatesQueries from '../../database/queries/candidates';
+import usersCandidates from '../../database/queries/Candidate/UsersCandidates';
 
 const CandidateController = {
     get: async (req, res) => {
@@ -14,7 +15,13 @@ const CandidateController = {
     post: async (req, res) => {
         try {
             const candidateCreated = await candidatesQueries.createCandidate(req);
-            res.status(200).json({ candidateCreated: candidateCreated });
+
+            let userCandidateRelated = null;
+            if (req.user !== undefined) {
+                userCandidateRelated = await usersCandidates.createdCandidates(req.user.id, candidateCreated[0].id);
+            }
+
+            res.status(200).json({ candidateCreated: candidateCreated[0], userCandidateRelated: userCandidateRelated });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(400).send('Error in insert new record: ' + error.message);
@@ -33,7 +40,13 @@ const CandidateController = {
     put: async (req, res) => {
         try {
             const candidateUpdated = await candidatesQueries.updateCandidate(req, res);
-            res.status(200).json({ candidateUpdated: candidateUpdated });
+
+            let userCandidateRelated = null;
+            if (req.user !== undefined) {
+                userCandidateRelated = await usersCandidates.updatedCandidates(req.user.id, candidateUpdated.id, req.body);
+            }
+
+            res.status(200).json({ candidateUpdated: candidateUpdated, userCandidateRelated: userCandidateRelated });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(400).send('Error in row update: ' + error.message);

@@ -21,8 +21,6 @@ async function getCandidate(candidateId) {
 }
 
 async function createCandidate(request) {
-    const user = request.payload;
-
     const fields: { [key: string]: string|number|boolean } = {
         enabled: request.body.enabled ?? null,
         slug: request.body.slug ?? null,
@@ -62,16 +60,10 @@ async function createCandidate(request) {
         ...valuesArr
     );
 
-    if (user != undefined && user.id) {
-        const userCandidateRelated = await usersCandidates.createdCandidates(user.id, result[0].id);
-        result.push(userCandidateRelated);
-    }
-
     return result;
 }
 
 async function updateCandidate(request, response) {
-    const user = request.payload;
     const candidateId = response.locals.candidate.id;
     
     const enabled = request.body.enabled ?? false;
@@ -118,16 +110,11 @@ async function updateCandidate(request, response) {
         },
     });
 
-    if (user != undefined && user.id) {
-        const userCandidateRelated = await usersCandidates.updatedCandidates(user.id, resultCandidate.id, request.body);
-        resultCandidate.userCandidateRelated = userCandidateRelated;
-    }
-
     return resultCandidate;
 }
 
 async function deleteCandidate(request, response) {
-    const user = request.payload;
+    const user = request.user;
     const candidateId = response.locals.candidate.id;
     
     const resultDeleted = await prisma.candidate.delete({
