@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
         res.status(200).json({ candidates: resultElements });
     } catch (error) {
         console.log('Error:' + error.message);
-        res.sendStatus('Error in row selection:' + error.message);
+        res.status(500).send('Error in row selection:' + error.message);
     }
 });
 
@@ -35,7 +35,7 @@ router.param("id", async (req, res, next, id) => {
         }
     } catch (error) {
         console.log('Error, resultCandidateId: ' + error.message);
-        res.sendStatus(500).end();
+        res.status(500).send('Error, resultCandidateId: ' + error.message).end();
     }
 });
 
