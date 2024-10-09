@@ -49,15 +49,15 @@ const SkillsOnCandidatesController = {
         }
     },
 
-    putRelated: async (req, res) => {
-        try {
-            const skillOnCandidateUpdated = await skillsOnCandidates.updateRelated(req, res);
-            res.status(200).json({ skillOnCandidateUpdated: skillOnCandidateUpdated });
-        } catch (error) {
-            console.log('Error: ' + error.message);
-            res.status(400).send('Error in row update: ' + error.message);
-        }
-    },
+    // putRelated: async (req, res) => {
+    //     try {
+    //         const skillOnCandidateUpdated = await skillsOnCandidates.updateRelated(req, res);
+    //         res.status(200).json({ skillOnCandidateUpdated: skillOnCandidateUpdated });
+    //     } catch (error) {
+    //         console.log('Error: ' + error.message);
+    //         res.status(400).send('Error in row update: ' + error.message);
+    //     }
+    // },
 
     deleteRelated: async (req, res) => {
         try {

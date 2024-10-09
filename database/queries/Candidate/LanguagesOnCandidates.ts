@@ -39,7 +39,7 @@ async function createLanguagesOnCandidatesRelated(request) {
     const candidateId: number = + request.body.candidateId;
 
     const proficiencyLevel: string = request.body.proficiencyLevel ?? '';
-    const assignedBy: string = request.body.assignedBy ?? '';
+    const assignedBy: number = request.user ? request.user.id : 0;
 
     const result = await prisma.languagesOnCandidates.create({
         data: {
@@ -77,7 +77,7 @@ async function getLanguagesOnCandidatesByIdsRelated(candidateId: number, languag
 
 async function updateRelated(request, response) {
     const proficiencyLevel: string = request.body.proficiencyLevel ?? '';
-    const assignedBy: string = request.body.assignedBy ?? '';
+    // const assignedBy: number = request.user ? request.user.id : 0;
 
     let languageOnCandidateIds: Number[] = [];
 
@@ -95,7 +95,7 @@ async function updateRelated(request, response) {
         },
         data: {
             proficiencyLevel: proficiencyLevel ?? undefined,
-            assignedBy: assignedBy ?? undefined,
+            // assignedBy: assignedBy ?? undefined,
         }
     })
 

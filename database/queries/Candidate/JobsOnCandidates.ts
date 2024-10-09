@@ -71,10 +71,11 @@ async function deleteById(request, response) {
 async function createJobsOnCandidates(request) {
     const jobId: number = + request.body.jobId;
     const candidateId: number = + request.body.candidateId;
+    const assignedBy: number = request.user ? request.user.id : 0;
 
     const result = await prisma.jobsOnCandidates.create({
         data: {
-            assignedBy: "API",
+            assignedBy: assignedBy,
             candidate: {
                 connect: {id: candidateId},
             },
@@ -87,29 +88,29 @@ async function createJobsOnCandidates(request) {
     return result;
 }
 
-async function updateRelated(request, response) {
-    const assignedByStr: string | null = request.body.assignedBy ?? null;
-    let jobOnCandidateIds: Number[] | null = null;
+// async function updateRelated(request, response) {
+//     const assignedBy: number = request.user ? request.user.id : 0;
+//     let jobOnCandidateIds: Number[] | null = null;
 
-    if ((response.locals.jobsOnCandidate ?? undefined) !== undefined) {
-        jobOnCandidateIds = response.locals.jobsOnCandidate.map((candidate: JobsOnCandidates) => {
-            return candidate.id;
-        });
-    }
+//     if ((response.locals.jobsOnCandidate ?? undefined) !== undefined) {
+//         jobOnCandidateIds = response.locals.jobsOnCandidate.map((candidate: JobsOnCandidates) => {
+//             return candidate.id;
+//         });
+//     }
 
-    const result = await prisma.jobsOnCandidates.updateMany({
-        where: {
-            id: {
-                in: jobOnCandidateIds
-            }
-        },
-        data: {
-            assignedBy: assignedByStr ?? undefined
-        }
-    })
+//     const result = await prisma.jobsOnCandidates.updateMany({
+//         where: {
+//             id: {
+//                 in: jobOnCandidateIds
+//             }
+//         },
+//         data: {
+//             assignedBy: assignedBy ?? undefined
+//         }
+//     })
 
-    return result;
-}
+//     return result;
+// }
 
 async function deleteRelated(request, response) {
     const jobId: number | null = request.params.jobId ? (+ request.params.jobId) : null;
@@ -131,7 +132,7 @@ const jobsOnCandidates = {
     getCandidatesJobById,
     deleteById,
     createJobsOnCandidates,
-    updateRelated,
+    // updateRelated,
     deleteRelated
 }
 

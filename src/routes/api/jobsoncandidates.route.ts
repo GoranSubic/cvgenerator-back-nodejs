@@ -33,7 +33,7 @@ router.param("candidatesJobsId", async (req, res, next, id) => {
 router
     .route("/:candidateId/job/:jobId?")
     .get(JobsOnCandidatesController.getIdRelated)
-    .put(JobsOnCandidatesController.putRelated)
+    // .put(JobsOnCandidatesController.putRelated)
     .delete(JobsOnCandidatesController.deleteRelated)
 
 // Middleware.

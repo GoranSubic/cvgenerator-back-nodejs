@@ -73,30 +73,30 @@ async function getSkillsOnCandidatesByIdsRelated(candidateId: number, skillId?: 
     return result;
 }
 
-async function updateRelated(request, response) {
-    const assignedBy: string = request.body.assignedBy ?? '';
+// async function updateRelated(request, response) {
+//     const assignedBy: number = request.user ? request.user.id : 0;
 
-    let skillOnCandidateIds: Number[] = [];
+//     let skillOnCandidateIds: Number[] = [];
 
-    if ((response.locals.skillsOnCandidate ?? undefined) !== undefined) {
-        skillOnCandidateIds = response.locals.skillsOnCandidate.map((candidate: SkillsOnCandidates) => {
-            return candidate.id;
-        });
-    }
+//     if ((response.locals.skillsOnCandidate ?? undefined) !== undefined) {
+//         skillOnCandidateIds = response.locals.skillsOnCandidate.map((candidate: SkillsOnCandidates) => {
+//             return candidate.id;
+//         });
+//     }
 
-    const result = await prisma.skillsOnCandidates.updateMany({
-        where: {
-            id: {
-                in: skillOnCandidateIds
-            }
-        },
-        data: {
-            assignedBy: assignedBy ?? undefined,
-        }
-    })
+//     const result = await prisma.skillsOnCandidates.updateMany({
+//         where: {
+//             id: {
+//                 in: skillOnCandidateIds
+//             }
+//         },
+//         data: {
+//             assignedBy: assignedBy ?? undefined,
+//         }
+//     })
 
-    return result;
-}
+//     return result;
+// }
 
 async function deleteRelated(request, response) {
     const skillId: number | null = request.params.skillId ? (+ request.params.skillId) : null;
@@ -118,7 +118,7 @@ const skillsOnCandidates = {
     getSkillsOnCandidatesByIdsRelated,
     deleteSkillsOnCandidatesById,
     createSkillsOnCandidatesRelated,
-    updateRelated,
+    // updateRelated,
     deleteRelated
 }
 

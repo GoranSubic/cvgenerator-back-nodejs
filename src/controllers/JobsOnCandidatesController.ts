@@ -49,15 +49,15 @@ const JobsOnCandidatesController = {
         }
     },
 
-    putRelated: async (req, res) => {
-        try {
-            const jobOnCandidateUpdated = await jobsOnCandidates.updateRelated(req, res);
-            res.status(200).json({ jobOnCandidateUpdated: jobOnCandidateUpdated });
-        } catch (error) {
-            console.log('Error: ' + error.message);
-            res.status(400).send('Error in row update: ' + error.message);
-        }
-    },
+    // putRelated: async (req, res) => {
+    //     try {
+    //         const jobOnCandidateUpdated = await jobsOnCandidates.updateRelated(req, res);
+    //         res.status(200).json({ jobOnCandidateUpdated: jobOnCandidateUpdated });
+    //     } catch (error) {
+    //         console.log('Error: ' + error.message);
+    //         res.status(400).send('Error in row update: ' + error.message);
+    //     }
+    // },
 
     deleteRelated: async (req, res) => {
         try {

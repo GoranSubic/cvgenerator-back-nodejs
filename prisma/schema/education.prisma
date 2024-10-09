@@ -26,7 +26,7 @@ model EducationsOnCandidates {
   graduationDateUntil       DateTime?       @map("graduation_date_until")
 
   assignedAt                DateTime        @default(now()) @map("assigned_at")
-  assignedBy                String          @map("assigned_by")
+  assignedBy                Int             @map("assigned_by")
 
   @@id([educationId, candidateId])
 

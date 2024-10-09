@@ -40,7 +40,7 @@ async function createCoursesOnCandidatesRelated(request) {
 
     const courseDate: Date | null = request.body.courseDate ?? null;
     const organization: string = request.body.organization ?? '';
-    const assignedBy: string = request.body.assignedBy ?? '';
+    const assignedBy: number = request.user ? request.user.id : 0;
 
     const result = await prisma.coursesOnCandidates.create({
         data: {
@@ -80,7 +80,7 @@ async function getCoursesOnCandidatesByIdsRelated(candidateId: number, courseId?
 async function updateRelated(request, response) {
     const courseDate: Date | null = request.body.courseDate ?? null;
     const organization: string = request.body.organization ?? '';
-    const assignedBy: string = request.body.assignedBy ?? '';
+    // const assignedBy: number = request.user ? request.user.id : 0;
 
     let courseOnCandidateIds: Number[] = [];
 
@@ -99,7 +99,7 @@ async function updateRelated(request, response) {
         data: {
             courseDate: courseDate ?? undefined,
             organization: organization ?? undefined,
-            assignedBy: assignedBy ?? undefined,
+            // assignedBy: assignedBy ?? undefined,
         }
     })
 

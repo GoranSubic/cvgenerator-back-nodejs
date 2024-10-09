@@ -41,7 +41,7 @@ async function createEducationsOnCandidatesRelated(request) {
     const educationLevel: string = request.body.educationLevel ?? '';
     const graduationDateFrom: Date | null = request.body.graduationDateFrom ?? null;
     const graduationDateUntil: Date | null = request.body.graduationDateUntil ?? null;
-    const assignedBy: string = request.body.assignedBy ?? '';
+    const assignedBy: number = request.user ? request.user.id : 0;
 
     const result = await prisma.educationsOnCandidates.create({
         data: {

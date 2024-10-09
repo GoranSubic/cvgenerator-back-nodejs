@@ -40,10 +40,51 @@ async function getUsersCvsByIdsRelated(cvId: number, userId?: number|null) {
     return result;
 }
 
+async function createdCvs(payloadUserId: number, resultCvId: number) {
+    const userId: number = + payloadUserId;
+    const cvId: number = + resultCvId;
+
+    const result = await prisma.usersCvs.create({
+        data: {
+            action: 'CREATE',
+            cv: {
+                connect: {id: cvId},
+            },
+            user: {
+                connect: {id: userId},
+            }
+        }
+    });
+
+    return result;
+}
+
+async function updatedCvs(payloadUserId: number, resultCvId: number, updatedFields: JsonObject, resultAction: string | undefined) {
+    const userId: number = + payloadUserId;
+    const cvId: number = + resultCvId;
+
+    const result = await prisma.usersCvs.create({
+        data: {
+            action: (resultAction != undefined && resultAction == 'deleted') ? 'DELETE' : 'UPDATE',
+            updatedFields: updatedFields,
+            cv: {
+                connect: {id: cvId},
+            },
+            user: {
+                connect: {id: userId},
+            }
+        }
+    });
+
+    return result;
+}
+
 const usersCvs = {
     getUserCv,
     getUsersCvs,
     getUsersCvsByIdsRelated,
+    createdCvs,
+    updatedCvs,
 }
 
 export default usersCvs;

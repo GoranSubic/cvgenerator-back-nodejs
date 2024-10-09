@@ -43,7 +43,7 @@ const CandidateController = {
 
             let userCandidateRelated = null;
             if (req.user !== undefined) {
-                userCandidateRelated = await usersCandidates.updatedCandidates(req.user.id, candidateUpdated.id, req.body);
+                userCandidateRelated = await usersCandidates.updatedCandidates(req.user.id, candidateUpdated.id, req.body, 'UPDATE');
             }
 
             res.status(200).json({ candidateUpdated: candidateUpdated, userCandidateRelated: userCandidateRelated });
