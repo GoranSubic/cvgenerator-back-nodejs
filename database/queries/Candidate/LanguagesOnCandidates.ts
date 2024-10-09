@@ -77,7 +77,6 @@ async function getLanguagesOnCandidatesByIdsRelated(candidateId: number, languag
 
 async function updateRelated(request, response) {
     const proficiencyLevel: string = request.body.proficiencyLevel ?? '';
-    // const assignedBy: number = request.user ? request.user.id : 0;
 
     let languageOnCandidateIds: Number[] = [];
 
@@ -95,7 +94,6 @@ async function updateRelated(request, response) {
         },
         data: {
             proficiencyLevel: proficiencyLevel ?? undefined,
-            // assignedBy: assignedBy ?? undefined,
         }
     })
 

@@ -38,7 +38,7 @@ async function createSkillsOnCandidatesRelated(request) {
     const skillId: number = + request.body.skillId;
     const candidateId: number = + request.body.candidateId;
 
-    const assignedBy: string = request.body.assignedBy ?? '';
+    const assignedBy: number = request.user ? request.user.id : 0;
 
     const result = await prisma.skillsOnCandidates.create({
         data: {
