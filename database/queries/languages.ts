@@ -1,5 +1,5 @@
 import { Language } from "../../generated/client";
-import prisma from "../client";
+import { prisma } from "../prisma-client-extension/deleted-extension";
 
 async function getLanguages() {
     const result: Language[] | null = await prisma.language.findMany({

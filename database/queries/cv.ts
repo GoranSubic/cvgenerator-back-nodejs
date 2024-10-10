@@ -1,5 +1,5 @@
 import { Cv } from "../../generated/client";
-import prisma from "../client";
+import { prisma } from "../prisma-client-extension/deleted-extension";
 
 async function getCvs() {
     const result: Cv[] | null = await prisma.cv.findMany({

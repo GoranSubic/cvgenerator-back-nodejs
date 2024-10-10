@@ -1,5 +1,5 @@
 import { Education } from "../../generated/client";
-import prisma from "../client";
+import { prisma } from "../prisma-client-extension/deleted-extension";
 
 async function getEducations() {
     const result: Education[] | null = await prisma.education.findMany({

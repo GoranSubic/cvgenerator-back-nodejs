@@ -1,5 +1,5 @@
 import { User } from "../../generated/client";
-import prisma from "../client";
+import { prisma } from "../prisma-client-extension/deleted-extension";
 import bcrypt from "bcrypt";
 
 async function getUsers() {

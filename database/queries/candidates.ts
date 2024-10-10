@@ -1,9 +1,10 @@
 import { Candidate } from "../../generated/client";
-import prisma from "../client";
+// import prisma from "../client";
+import { prisma } from "../prisma-client-extension/deleted-extension";
 import usersCandidates from "./Candidate/UsersCandidates";
 
 async function getCandidates() {
-    const results = await prisma.$queryRaw`SELECT id, enabled, first_name, last_name, email FROM candidates WHERE enabled = true`;
+    const results = await prisma.$queryRaw`SELECT id, enabled, first_name, last_name, email, deleted_at FROM candidates WHERE enabled = true`;
   
     return results;
 }

@@ -1,5 +1,5 @@
 import { Course } from "../../generated/client";
-import prisma from "../client";
+import { prisma } from "../prisma-client-extension/deleted-extension";
 
 async function getCourses() {
     const result: Course[] | null = await prisma.course.findMany({

@@ -1,7 +1,7 @@
-import prisma from "../client";
+import { prisma } from "../prisma-client-extension/deleted-extension";
 
 async function getJobs() {
-    const results = await prisma.$queryRaw`SELECT id, enabled, title FROM jobs`;
+    const results = await prisma.$queryRaw`SELECT id, enabled, title, deleted_at FROM jobs`;
   
     return results;
 }
@@ -38,12 +38,19 @@ async function updateJob(request, response) {
 
 async function deleteJob(request, response) {
     const jobId = response.locals.job[0].id;
-    const result = await prisma.$queryRawUnsafe(
-        'DELETE FROM jobs WHERE (id = $1::Int) RETURNING *',
-        jobId
-    );
 
-    return result;
+    const resultDeleted = await prisma.job.delete({
+        where: {
+            id: + jobId,
+        },
+    });
+
+    // const result = await prisma.$queryRawUnsafe(
+    //     'DELETE FROM jobs WHERE (id = $1::Int) RETURNING *',
+    //     jobId
+    // );
+
+    return resultDeleted;
 }
 
 const jobsQueries = {

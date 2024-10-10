@@ -6,6 +6,7 @@ model Cv {
 
     createdAt           DateTime        @default(now()) @map("created_at")
     updatedAt           DateTime        @default(now()) @map("updated_at")
+    deletedAt         DateTime?       @map("deleted_at")
 
     candidate           Candidate?      @relation(fields: [candidateId], references: [id])
     candidateId         Int?            @map("candidate_id")

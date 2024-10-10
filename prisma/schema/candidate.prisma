@@ -18,6 +18,8 @@ model Candidate {
   createdAt         DateTime        @default(now())  @map("created_at")
   updatedAt         DateTime        @default(now())  @map("updated_at")
 
+  deletedAt         DateTime?       @map("deleted_at")
+
   users             UsersCandidates[]
   jobs              JobsOnCandidates[]
   educations        EducationsOnCandidates[]
@@ -25,7 +27,7 @@ model Candidate {
   skills            SkillsOnCandidates[]
   languages         LanguagesOnCandidates[]
   workExperiences   WorkExperience[]
-  cv                Cv[]
+  cvs               Cv[]
 
   @@map("candidates")
 }
