@@ -25,19 +25,18 @@ async function createCandidate(request) {
     const fields: { [key: string]: string|number|boolean } = {
         enabled: request.body.enabled ?? null,
         slug: request.body.slug ?? null,
-        first_name: request.body.first_name ?? null,
-        last_name: request.body.last_name ?? null,
+        firstName: request.body.firstName ?? null,
+        lastName: request.body.lastName ?? null,
         email: request.body.email ?? null,
         description: request.body.description ?? null,
         gender: request.body.gender ?? null,
-        birth_day: request.body.birth_day ?? null,
+        birthDay: request.body.birthDay ?? null,
         image: request.body.image ?? null,
         address: request.body.address ?? null,
         city: request.body.city ?? null,
         state: request.body.state ?? null,
         occupation: request.body.occupation ?? null,
         hobbies: request.body.hobbies ?? null,
-        remember_token: request.body.remember_token ?? null,
     };
 
     const valuesArr: (string | number | boolean)[] = [];
@@ -69,8 +68,8 @@ async function updateCandidate(request, response) {
     
     const enabled = request.body.enabled ?? false;
     const slug = request.body.slug ?? (response.locals.candidate.slug ?? null);
-    const first_name = request.body.first_name ?? (response.locals.candidate.firstName ?? null);
-    const last_name = request.body.last_name ?? (response.locals.candidate.lastName ?? null);
+    const firstName = request.body.firstName ?? (response.locals.candidate.firstName ?? null);
+    const lastName = request.body.lastName ?? (response.locals.candidate.lastName ?? null);
     const email = (((request.body.email ?? undefined) !== undefined) && (request.body.email !== "")) ? request.body.email :
         (
             (((response.locals.candidate.email ?? undefined) !== undefined) && (response.locals.candidate.email !== "")) ?
@@ -79,14 +78,13 @@ async function updateCandidate(request, response) {
         );
     const description = request.body.description ?? (response.locals.candidate.description ?? null);
     const gender = request.body.gender ?? (response.locals.candidate.gender ?? null);
-    const birth_day = request.body.birth_day ?? (response.locals.candidate.birthDay ?? null);
+    const birthDay = request.body.birthDay ?? (response.locals.candidate.birthDay ?? null);
     const image = request.body.image ?? (response.locals.candidate.image ?? null);
     const address = request.body.address ?? (response.locals.candidate.address ?? null);
     const city = request.body.city ?? (response.locals.candidate.city ?? null);
     const state = request.body.state ?? (response.locals.candidate.state ?? null);
     const occupation = request.body.occupation ?? (response.locals.candidate.occupation ?? null);
     const hobbies = request.body.hobbies ?? (response.locals.candidate.hobbies ?? null);
-    const remember_token = request.body.remember_token ?? (response.locals.candidate.rememberToken ?? null);
 
     const resultCandidate = await prisma.candidate.update({
         where: {
@@ -95,19 +93,18 @@ async function updateCandidate(request, response) {
         data: {
             enabled: enabled,
             slug: slug,
-            firstName: first_name,
-            lastName: last_name,
+            firstName: firstName,
+            lastName: lastName,
             email: email,
             description: description,
             gender: gender,
-            birthDay: birth_day,
+            birthDay: birthDay,
             image: image,
             address: address,
             city: city,
             state: state,
             occupation: occupation,
             hobbies: hobbies,
-            rememberToken: remember_token
         },
     });
 
