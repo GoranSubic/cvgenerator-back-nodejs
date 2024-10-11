@@ -44,7 +44,7 @@ model UsersCandidates {
 }
 
 model UsersCvs {
-  id                Int             @default(autoincrement()) @unique
+  id                Int             @id @default(autoincrement()) @unique
   user              User            @relation(fields: [userId], references: [id])
   userId            Int             @map("user_id")
   cv                Cv              @relation(fields: [cvId], references: [id])
@@ -54,8 +54,6 @@ model UsersCvs {
   updatedFields     Json?           @map("updated_fields")
 
   createdAt         DateTime        @default(now()) @map("created_at")
-
-  @@id([userId, cvId])
 
   @@map("users_on_cvs")
 }
