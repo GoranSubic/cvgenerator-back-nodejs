@@ -1,5 +1,6 @@
 import { Cv } from "../../generated/client";
-import { prisma } from "../prisma-client-extension/deleted-extension";
+import prisma from "../client";
+import { prismaSoftDelete } from "../prisma-client-extension/deleted-extension";
 
 async function getCvs() {
     const result: Cv[] | null = await prisma.cv.findMany({
@@ -112,7 +113,7 @@ async function updateCv(request, response) {
 async function deleteCv(request, response) {
     const cvId: number = + response.locals.cv.id;
 
-    const results = await prisma.cv.delete({
+    const results = await prismaSoftDelete.cv.delete({
         where: {
             id: cvId,
         },

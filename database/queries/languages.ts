@@ -1,5 +1,6 @@
 import { Language } from "../../generated/client";
-import { prisma } from "../prisma-client-extension/deleted-extension";
+import prisma from "../client";
+import { prismaSoftDelete } from "../prisma-client-extension/deleted-extension";
 
 async function getLanguages() {
     const result: Language[] | null = await prisma.language.findMany({
@@ -54,7 +55,7 @@ async function updateLanguage(request, response) {
 async function deleteLanguage(request, response) {
     const languageId: number = + response.locals.language.id;
 
-    const results = await prisma.language.delete({
+    const results = await prismaSoftDelete.language.delete({
         where: {
             id: languageId,
         },

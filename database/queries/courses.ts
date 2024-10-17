@@ -1,5 +1,6 @@
 import { Course } from "../../generated/client";
-import { prisma } from "../prisma-client-extension/deleted-extension";
+import prisma from "../client";
+import { prismaSoftDelete } from "../prisma-client-extension/deleted-extension";
 
 async function getCourses() {
     const result: Course[] | null = await prisma.course.findMany({
@@ -54,7 +55,7 @@ async function updateCourse(request, response) {
 async function deleteCourse(request, response) {
     const courseId: number = + response.locals.course.id;
 
-    const results = await prisma.course.delete({
+    const results = await prismaSoftDelete.course.delete({
         where: {
             id: courseId,
         },

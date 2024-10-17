@@ -1,6 +1,6 @@
 import { Candidate } from "../../generated/client";
-// import prisma from "../client";
-import { prisma } from "../prisma-client-extension/deleted-extension";
+import prisma from "../client";
+import { prismaSoftDelete } from "../prisma-client-extension/deleted-extension";
 import usersCandidates from "./Candidate/UsersCandidates";
 
 async function getCandidates() {
@@ -115,7 +115,7 @@ async function deleteCandidate(request, response) {
     const user = request.user;
     const candidateId = response.locals.candidate.id;
     
-    const resultDeleted = await prisma.candidate.delete({
+    const resultDeleted = await prismaSoftDelete.candidate.delete({
         where: {
             id: + candidateId,
         },

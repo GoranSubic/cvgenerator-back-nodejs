@@ -1,5 +1,6 @@
 import { Skill } from "../../generated/client";
-import { prisma } from "../prisma-client-extension/deleted-extension";
+import prisma from "../client";
+import { prismaSoftDelete } from "../prisma-client-extension/deleted-extension";
 
 async function getSkills() {
     const result: Skill[] | null = await prisma.skill.findMany({
@@ -54,7 +55,7 @@ async function updateSkill(request, response) {
 async function deleteSkill(request, response) {
     const skillId: number = + response.locals.skill.id;
 
-    const results = await prisma.skill.delete({
+    const results = await prismaSoftDelete.skill.delete({
         where: {
             id: skillId,
         },

@@ -1,4 +1,5 @@
-import { prisma } from "../prisma-client-extension/deleted-extension";
+import prisma from "../client";
+import { prismaSoftDelete } from "../prisma-client-extension/deleted-extension";
 
 async function getJobs() {
     const results = await prisma.$queryRaw`SELECT id, enabled, title, deleted_at FROM jobs`;
@@ -39,7 +40,7 @@ async function updateJob(request, response) {
 async function deleteJob(request, response) {
     const jobId = response.locals.job[0].id;
 
-    const resultDeleted = await prisma.job.delete({
+    const resultDeleted = await prismaSoftDelete.job.delete({
         where: {
             id: + jobId,
         },
