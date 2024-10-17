@@ -12,7 +12,7 @@ model Course {
 }
 
 model CoursesOnCandidates {
-    id                Int             @default(autoincrement()) @unique
+    id                Int             @id @default(autoincrement())
     course            Course          @relation(fields: [courseId], references: [id])
     courseId          Int             @map("course_id") // relation scalar field (used in the `@relation` attribute above)
     candidate         Candidate       @relation(fields: [candidateId], references: [id])
@@ -23,8 +23,6 @@ model CoursesOnCandidates {
 
     assignedAt        DateTime        @default(now()) @map("assigned_at")
     assignedBy        Int             @map("assigned_by")
-
-    @@id([courseId, candidateId])
 
     @@map("courses_on_candidates")
 }
