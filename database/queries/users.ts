@@ -1,6 +1,6 @@
 import { User } from "../../generated/client";
-import prisma from "../client";
-import { prismaSoftDelete } from "../prisma-client-extension/deleted-extension";
+// import prisma from "../client";
+import prisma from "../prisma-client-extension/deleted-extension";
 import bcrypt from "bcrypt";
 
 async function getUsers() {
@@ -107,7 +107,7 @@ async function updateUser(request, response) {
 async function deleteUser(request, response) {
     const userId = response.locals.user.id;
     
-    const results = await prismaSoftDelete.user.delete({
+    const results = await prisma.user.delete({
         where: {
             id: + userId,
         },

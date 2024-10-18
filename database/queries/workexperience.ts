@@ -1,6 +1,6 @@
 import { WorkExperience } from "../../generated/client";
-import prisma from "../client";
-import { prismaSoftDelete } from "../prisma-client-extension/deleted-extension";
+// import prisma from "../client";
+import prisma from "../prisma-client-extension/deleted-extension";
 
 async function getWorkExperiences() {
     const result: WorkExperience[] | null = await prisma.workExperience.findMany({
@@ -92,7 +92,7 @@ async function updateWorkExperience(request, response) {
 async function deleteWorkExperience(request, response) {
     const workExperienceId: number = + response.locals.workExperience.id;
 
-    const results = await prismaSoftDelete.workExperience.delete({
+    const results = await prisma.workExperience.delete({
         where: {
             id: workExperienceId,
         },

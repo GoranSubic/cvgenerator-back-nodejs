@@ -1,7 +1,27 @@
 import { Prisma } from '../../generated/client';
 import prismaClient from "../client";
 
-const prisma = prismaClient.$extends({
+//extension for filtering soft deleted rows from queries
+const filterSoftDeleted = prismaClient.$extends({
+  name: 'filterSoftDeleted',
+  query: {
+    $allModels: {
+      async $allOperations({ args, query, operation }) {
+        if (
+          operation === 'findUnique' ||
+          operation === 'findFirst' ||
+          operation === 'findMany'
+        ) {
+          args.where = { ...args.where, deletedAt: null };
+          return query(args);
+        }
+        return query(args);
+      },
+    },
+  },
+});
+
+const prismaSoftDelete = filterSoftDeleted.$extends({
   model: {
     $allModels: {
       async delete<M, A>(
@@ -19,6 +39,6 @@ const prisma = prismaClient.$extends({
       },
     },
   },
-})
+});
 
-export { prisma }
+export default prismaSoftDelete;
