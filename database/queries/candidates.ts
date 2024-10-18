@@ -1,7 +1,30 @@
 import { Candidate } from "../../generated/client";
-// import prisma from "../client";
+import prismaAll from "../client";
 import prisma from "../prisma-client-extension/deleted-extension";
 import usersCandidates from "./Candidate/UsersCandidates";
+
+async function getCandidatesAll() {
+    const results: Candidate[] | null = await prismaAll.candidate.findMany({
+        select: {
+            id: true,
+            enabled: true,
+            slug: true,
+            firstName: true,
+            lastName: true,
+            gender: true,
+            cvs: {
+                select: {
+                    id: true,
+                    title: true,
+                    description: true,
+                    // data: true,
+                }
+            },
+        },
+    });
+
+    return results;
+}
 
 async function getCandidates() {
     const results = await prisma.$queryRaw`SELECT id, enabled, first_name, last_name, email, deleted_at FROM candidates WHERE enabled = true and deleted_at IS null`;
@@ -130,6 +153,7 @@ async function deleteCandidate(request, response) {
 }
 
 const candidatesQueries = {
+    getCandidatesAll,
     getCandidates,
     getCandidate,
     createCandidate,

@@ -2,6 +2,16 @@ import candidatesQueries from '../../database/queries/candidates';
 import usersCandidates from '../../database/queries/Candidate/UsersCandidates';
 
 const CandidateController = {
+    getAll: async (req, res) => {
+        try {
+            const resultElements = await candidatesQueries.getCandidatesAll();
+            res.status(200).json({ candidates: resultElements });
+        } catch (error) {
+            console.log('Error: ' + error.message);
+            res.sendStatus('Error in row selection: ' + error.message);
+        }
+    },
+
     get: async (req, res) => {
         try {
             const resultElements = await candidatesQueries.getCandidates();

@@ -6,7 +6,7 @@ const filterSoftDeleted = prismaClient.$extends({
   name: 'filterSoftDeleted',
   query: {
     $allModels: {
-      async $allOperations({ args, query, operation }) {
+      async $allOperations({ model, operation, args, query }) {
         if (
           operation === 'findUnique' ||
           operation === 'findFirst' ||
@@ -22,6 +22,7 @@ const filterSoftDeleted = prismaClient.$extends({
 });
 
 const prismaSoftDelete = filterSoftDeleted.$extends({
+  name: 'prismaSoftDelete',
   model: {
     $allModels: {
       async delete<M, A>(

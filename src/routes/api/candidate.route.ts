@@ -4,6 +4,9 @@ import candidatesQueries from '../../../database/queries/candidates';
 const router = express.Router();
 
 // Gets all candidates.
+router.get("/all", CandidateController.getAll);
+
+// Gets all candidates without deleted.
 router.get("/", async (req, res) => {
     try {
         const resultElements = await candidatesQueries.getCandidates();
