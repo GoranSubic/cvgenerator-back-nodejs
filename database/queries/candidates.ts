@@ -12,6 +12,7 @@ async function getCandidatesAll() {
             firstName: true,
             lastName: true,
             gender: true,
+            deletedAt: true,
             cvs: {
                 select: {
                     id: true,
