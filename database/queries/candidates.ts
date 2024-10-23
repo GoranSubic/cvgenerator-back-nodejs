@@ -1,3 +1,4 @@
+import { Request, Response } from "express";
 import { Candidate } from "../../generated/client";
 import prismaAll from "../client";
 import prisma from "../prisma-client-extension/deleted-extension";
@@ -45,7 +46,7 @@ async function getCandidate(candidateId) {
     return result;
 }
 
-async function createCandidate(request) {
+async function createCandidate(request: Request) {
     const fields: { [key: string]: string|number|boolean } = {
         enabled: request.body.enabled ?? null,
         slug: request.body.slug ?? null,
@@ -87,7 +88,7 @@ async function createCandidate(request) {
     return result;
 }
 
-async function updateCandidate(request, response) {
+async function updateCandidate(request: Request, response: Response) {
     const candidateId = response.locals.candidate.id;
     
     const enabled = request.body.enabled ?? false;
@@ -135,7 +136,7 @@ async function updateCandidate(request, response) {
     return resultCandidate;
 }
 
-async function deleteCandidate(request, response) {
+async function deleteCandidate(request: Request, response: Response) {
     const user = request.user;
     const candidateId = response.locals.candidate.id;
     
