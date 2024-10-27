@@ -10,7 +10,8 @@ async function findUserByEmail(email) {
 }
 
 async function createUserByEmailAndPassword(user) {
-    user.password = bcrypt.hashSync(user.password, 12);
+    const salt = await bcrypt.genSalt();
+    user.password = await bcrypt.hash(user.password, salt);
     user.slug = user.firstName + ' - ' + user.lastName + ' - ' + Math.floor(Math.random() * 10);
     return prisma.user.create({
         data: user,

@@ -9,8 +9,7 @@ const AuthMiddleware = {
         const { authorization } = req.headers;
     
         if (!authorization) {
-            res.status(401);
-            throw new Error('🚫 Un-Authorized 🚫');
+            res.status(401).json({msg: '🚫 Un-Authorized 🚫'}).end();
         }
     
         try {
@@ -18,11 +17,10 @@ const AuthMiddleware = {
             const payload = jwt.verify(token, accessTokenSecret);
             req.user = payload;
         } catch (err) {
-            res.status(401);
             if (err.name === 'TokenExpiredError') {
-                throw new Error(err.name);
+                res.status(401).json({msg: '🚫 Un-Authorized 🚫 ', error: err.name }).end();
             }
-            throw new Error('🚫 Un-Authorized 🚫');
+            res.status(401).json({msg: '🚫 Un-Authorized 🚫'}).end();
         }
     
         return next();

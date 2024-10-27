@@ -7,7 +7,7 @@ const UserController = {
             res.status(200).json({ users: resultElements });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.sendStatus('Error in row selection: ' + error.message);
+            res.status(400).json({error: 'Error in row selection: ' + error.message});
         }
     },
 
@@ -17,7 +17,7 @@ const UserController = {
             res.status(201).json({ userCreated: userCreated });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.status(400).send('Error in insert new record: ' + error.message);
+            res.status(400).json({error: 'Error in insert new record: ' + error.message});
         }
     },
 
@@ -26,7 +26,7 @@ const UserController = {
             res.status(200).json({ user: res.locals.user });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.sendStatus('Error in row selection: ' + error.message);
+            res.status(400).json({error: 'Error in row selection: ' + error.message});
         }
     },
 
@@ -36,7 +36,7 @@ const UserController = {
             res.status(200).json({ userUpdated: userUpdated });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.status(400).send('Error in row update: ' + error.message);
+            res.status(400).json({error: 'Error in row update: ' + error.message});
         }
     },
 
@@ -46,7 +46,7 @@ const UserController = {
             res.status(200).json({ deletedUser: deletedUser });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.status(400).send('Error in row deletion: ' + error.message);
+            res.status(400).json({error: 'Error in row deletion: ' + error.message});
         }
     }
 }
