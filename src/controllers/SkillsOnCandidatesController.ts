@@ -26,7 +26,7 @@ const SkillsOnCandidatesController = {
             res.status(204).json({ deletedSkillOnCandidate: deletedSkillOnCandidate });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.status(400).send('Error in row deletion: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row deletion: ' + error.message});
         }
     },
 
@@ -36,7 +36,7 @@ const SkillsOnCandidatesController = {
             res.status(201).json({ skillCreated: skillCreated });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.status(400).send('Error in insert new record: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in insert new record: ' + error.message});
         }
     },
 
@@ -55,7 +55,7 @@ const SkillsOnCandidatesController = {
     //         res.status(200).json({ skillOnCandidateUpdated: skillOnCandidateUpdated });
     //     } catch (error) {
     //         console.log('Error: ' + error.message);
-    //         res.status(400).send('Error in row update: ' + error.message);
+    //         res.status(500).json({error: 'Internal Server Error', details: 'Error in row update: ' + error.message});
     //     }
     // },
 
@@ -65,7 +65,7 @@ const SkillsOnCandidatesController = {
             res.status(204).json({ deletedSkillOnCandidateRelated: deletedSkill });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.status(400).send('Error in row deletion: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row deletion: ' + error.message});
         }
     }
 }

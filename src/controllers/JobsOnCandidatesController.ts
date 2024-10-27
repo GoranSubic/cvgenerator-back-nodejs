@@ -55,7 +55,7 @@ const JobsOnCandidatesController = {
     //         res.status(200).json({ jobOnCandidateUpdated: jobOnCandidateUpdated });
     //     } catch (error) {
     //         console.log('Error: ' + error.message);
-    //         res.status(400).send('Error in row update: ' + error.message);
+    //         res.status(500).json({error: 'Internal Server Error', details: 'Error in row update: ' + error.message});
     //     }
     // },
 
