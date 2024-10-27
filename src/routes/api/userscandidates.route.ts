@@ -25,7 +25,7 @@ router.param("usersCandidatesId", async (req, res, next, usersCandidatesId) => {
         }
     } catch (error) {
         console.log('Error, resultUserCandidateId: ' + error.message);
-        res.sendStatus(500).end();
+        res.status(500).json({error: 'Internal Server Error', details: 'Error, resultUserCandidateId: ' + error.message});
     }
 });
 
@@ -47,7 +47,7 @@ router.param("candidateId", async (req, res, next, candidateId) => {
         }
     } catch (error) {
         console.log('Error, resultUsersCandidateId related: ' + error.message);
-        res.sendStatus(500).end();
+        res.status(500).json({error: 'Internal Server Error', details: 'Error, resultUsersCandidateId: ' + error.message});
     }
 });
 

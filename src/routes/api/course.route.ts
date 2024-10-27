@@ -26,8 +26,8 @@ router.param("id", async (req, res, next, id) => {
             next(); // execute next action - get/put/delete
         }
     } catch (error) {
-        console.log('Error, resultCoursed: ' + error.message);
-        res.sendStatus(500).end();
+        console.log('Error, resultCourses: ' + error.message);
+        res.status(500).json({error: 'Internal Server Error', details: 'Error, resultCourses: ' + error.message});
     }
 });
 

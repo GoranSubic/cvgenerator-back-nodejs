@@ -27,7 +27,7 @@ router.param("id", async (req, res, next, id) => {
         }
     } catch (error) {
         console.log('Error, resultLanguageId: ' + error.message);
-        res.sendStatus(500).end();
+        res.status(500).json({error: 'Internal Server Error', details: 'Error, resultLanguageId: ' + error.message});
     }
 });
 

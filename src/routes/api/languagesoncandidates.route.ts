@@ -26,7 +26,7 @@ router.param("candidatesLanguagesId", async (req, res, next, candidatesLanguages
         }
     } catch (error) {
         console.log('Error, resultLanguagesOnCandidateId: ' + error.message);
-        res.sendStatus(500).end();
+        res.status(500).json({error: 'Internal Server Error', details: 'Error, resultLanguagesOnCandidateId: ' + error.message});
     }
 });
 
@@ -50,7 +50,7 @@ router.param("candidateId", async (req, res, next, candidateId) => {
         }
     } catch (error) {
         console.log('Error, resultLanguagesOnCandidateId related: ' + error.message);
-        res.sendStatus(500).end();
+        res.status(500).json({error: 'Internal Server Error', details: 'Error, resultLanguagesOnCandidateId: ' + error.message});
     }
 });
 

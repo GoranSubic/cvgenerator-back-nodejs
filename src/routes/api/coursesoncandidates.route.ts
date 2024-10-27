@@ -26,7 +26,7 @@ router.param("candidatesCoursesId", async (req, res, next, candidatesCoursesId) 
         }
     } catch (error) {
         console.log('Error, resultCoursesOnCandidateId: ' + error.message);
-        res.sendStatus(500).end();
+        res.status(500).json({error: 'Internal Server Error', details: 'Error, resultCoursesOnCandidateId: ' + error.message});
     }
 });
 
@@ -50,7 +50,7 @@ router.param("candidateId", async (req, res, next, candidateId) => {
         }
     } catch (error) {
         console.log('Error, resultCoursesOnCandidateId related: ' + error.message);
-        res.sendStatus(500).end();
+        res.status(500).json({error: 'Internal Server Error', details: 'Error, resultCoursesOnCandidateId: ' + error.message});
     }
 });
 

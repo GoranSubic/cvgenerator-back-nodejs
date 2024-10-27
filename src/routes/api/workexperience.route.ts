@@ -27,7 +27,7 @@ router.param("id", async (req, res, next, id) => {
         }
     } catch (error) {
         console.log('Error, resultWorkExperienceId: ' + error.message);
-        res.sendStatus(500).end();
+        res.status(500).json({error: 'Internal Server Error', details: 'Error, resultWorkExperienceId: ' + error.message});
     }
 });
 
@@ -47,7 +47,7 @@ router.param("candidateId", async (req, res, next, candidateId) => {
         }
     } catch (error) {
         console.log('Error, resultWorkExperienceId: ' + error.message);
-        res.sendStatus(500).end();
+        res.status(500).json({error: 'Internal Server Error', details: 'Error, resultWorkExperienceId: ' + error.message});
     }
 });
 

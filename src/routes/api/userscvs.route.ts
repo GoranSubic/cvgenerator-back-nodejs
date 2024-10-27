@@ -22,7 +22,7 @@ router.param("usersCvsId", async (req, res, next, usersCvsId) => {
         }
     } catch (error) {
         console.log('Error, resultUserCvId: ' + error.message);
-        res.sendStatus(500).end();
+        res.status(500).json({error: 'Internal Server Error', details: 'Error, resultUserCvId: ' + error.message});
     }
 });
 
@@ -44,7 +44,7 @@ router.param("cvId", async (req, res, next, cvId) => {
         }
     } catch (error) {
         console.log('Error, resultUsersCvId related: ' + error.message);
-        res.sendStatus(500).end();
+        res.status(500).json({error: 'Internal Server Error', details: 'Error, resultUsersCvId: ' + error.message});
     }
 });
 

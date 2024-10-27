@@ -26,7 +26,7 @@ router.param("candidatesSkillsId", async (req, res, next, candidatesSkillsId) =>
         }
     } catch (error) {
         console.log('Error, resultSkillsOnCandidateId: ' + error.message);
-        res.sendStatus(500).end();
+        res.status(500).json({error: 'Internal Server Error', details: 'Error, resultSkillsOnCandidateId: ' + error.message});
     }
 });
 
@@ -50,7 +50,7 @@ router.param("candidateId", async (req, res, next, candidateId) => {
         }
     } catch (error) {
         console.log('Error, resultSkillsOnCandidateId related: ' + error.message);
-        res.sendStatus(500).end();
+        res.status(500).json({error: 'Internal Server Error', details: 'Error, resultSkillsOnCandidateId: ' + error.message});
     }
 });
 
