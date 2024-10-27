@@ -14,7 +14,7 @@ const JobController = {
     post: async (req, res) => {
         try {
             const jobCreated = await jobsQueries.createJob(req);
-            res.status(200).json({ jobCreated: jobCreated });
+            res.status(201).json({ jobCreated: jobCreated });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(500).json({error: 'Internal Server Error', details: 'Error in insert new record: ' + error.message});
@@ -43,7 +43,7 @@ const JobController = {
     delete: async (req, res) => {
         try {
             const deletedJob = await jobsQueries.deleteJob(req, res);
-            res.status(200).json({ deletedJob: deletedJob });
+            res.status(204).json({ deletedJob: deletedJob });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(500).json({error: 'Internal Server Error', details: 'Error in row deletion: ' + error.message});

@@ -21,7 +21,7 @@ const CvController = {
                 userCvRelated = await usersCvs.createdCvs(req.user.id, cvCreated.id);
             }
 
-            res.status(200).json({ cvCreated: cvCreated, userCvRelated: userCvRelated });
+            res.status(204).json({ cvCreated: cvCreated, userCvRelated: userCvRelated });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(500).json({error: 'Internal Server Error', details: 'Error in insert new record: ' + error.message});
@@ -65,7 +65,7 @@ const CvController = {
     delete: async (req, res) => {
         try {
             const deletedCv = await cvsQueries.deleteCv(req, res);
-            res.status(200).json({ deletedCv: deletedCv });
+            res.status(201).json({ deletedCv: deletedCv });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(500).json({error: 'Internal Server Error', details: 'Error in row deletion: ' + error.message});

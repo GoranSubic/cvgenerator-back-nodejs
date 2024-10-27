@@ -14,7 +14,7 @@ const LanguageController = {
     post: async (req, res) => {
         try {
             const languageCreated = await languagesQueries.createLanguage(req);
-            res.status(200).json({ languageCreated: languageCreated });
+            res.status(201).json({ languageCreated: languageCreated });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(500).json({error: 'Internal Server Error', details: 'Error in insert new record: ' + error.message});
@@ -43,7 +43,7 @@ const LanguageController = {
     delete: async (req, res) => {
         try {
             const deletedLanguage = await languagesQueries.deleteLanguage(req, res);
-            res.status(200).json({ deletedLanguage: deletedLanguage });
+            res.status(204).json({ deletedLanguage: deletedLanguage });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(500).json({error: 'Internal Server Error', details: 'Error in row deletion: ' + error.message});

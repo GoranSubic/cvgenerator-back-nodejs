@@ -23,7 +23,7 @@ const SkillsOnCandidatesController = {
     delete: async (req, res) => {
         try {
             const deletedSkillOnCandidate = await skillsOnCandidates.deleteSkillsOnCandidatesById(req, res);
-            res.status(200).json({ deletedSkillOnCandidate: deletedSkillOnCandidate });
+            res.status(204).json({ deletedSkillOnCandidate: deletedSkillOnCandidate });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(400).send('Error in row deletion: ' + error.message);
@@ -33,7 +33,7 @@ const SkillsOnCandidatesController = {
     post: async (req, res) => {
         try {
             const skillCreated = await skillsOnCandidates.createSkillsOnCandidatesRelated(req);
-            res.status(200).json({ skillCreated: skillCreated });
+            res.status(201).json({ skillCreated: skillCreated });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(400).send('Error in insert new record: ' + error.message);
@@ -62,7 +62,7 @@ const SkillsOnCandidatesController = {
     deleteRelated: async (req, res) => {
         try {
             const deletedSkill = await skillsOnCandidates.deleteRelated(req, res);
-            res.status(200).json({ deletedSkillOnCandidateRelated: deletedSkill });
+            res.status(204).json({ deletedSkillOnCandidateRelated: deletedSkill });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(400).send('Error in row deletion: ' + error.message);

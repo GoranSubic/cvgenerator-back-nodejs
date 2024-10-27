@@ -14,7 +14,7 @@ const CourseController = {
     post: async (req, res) => {
         try {
             const courseCreated = await coursesQueries.createCourse(req);
-            res.status(200).json({ courseCreated: courseCreated });
+            res.status(201).json({ courseCreated: courseCreated });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(500).json({error: 'Internal Server Error', details: 'Error in insert new record: ' + error.message});
@@ -43,7 +43,7 @@ const CourseController = {
     delete: async (req, res) => {
         try {
             const deletedCourse = await coursesQueries.deleteCourse(req, res);
-            res.status(200).json({ deletedCourse: deletedCourse });
+            res.status(204).json({ deletedCourse: deletedCourse });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(500).json({error: 'Internal Server Error', details: 'Error in row deletion: ' + error.message});

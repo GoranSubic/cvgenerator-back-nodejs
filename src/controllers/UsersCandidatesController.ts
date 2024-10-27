@@ -14,7 +14,7 @@ const UsersCandidatesController = {
     post: async (req, res) => {
         try {
             const skillCreated = await usersCandidates.createUsersCandidatesRelated(req);
-            res.status(200).json({ skillCreated: skillCreated });
+            res.status(201).json({ skillCreated: skillCreated });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(500).json({error: 'Internal Server Error', details: 'Error in insert new record: ' + error.message});

@@ -23,7 +23,7 @@ const JobsOnCandidatesController = {
     delete: async (req, res) => {
         try {
             const deletedJobOnCandidate = await jobsOnCandidates.deleteById(req, res);
-            res.status(200).json({ deletedJobOnCandidate: deletedJobOnCandidate });
+            res.status(204).json({ deletedJobOnCandidate: deletedJobOnCandidate });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(500).json({error: 'Internal Server Error', details: 'Error in row deletion: ' + error.message});
@@ -33,7 +33,7 @@ const JobsOnCandidatesController = {
     post: async (req, res) => {
         try {
             const jobCreated = await jobsOnCandidates.createJobsOnCandidates(req);
-            res.status(200).json({ jobCreated: jobCreated });
+            res.status(201).json({ jobCreated: jobCreated });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(500).json({error: 'Internal Server Error', details: 'Error in insert new record: ' + error.message});
@@ -62,7 +62,7 @@ const JobsOnCandidatesController = {
     deleteRelated: async (req, res) => {
         try {
             const deletedJob = await jobsOnCandidates.deleteRelated(req, res);
-            res.status(200).json({ deletedJobOnCandidateRelated: deletedJob });
+            res.status(204).json({ deletedJobOnCandidateRelated: deletedJob });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(500).json({error: 'Internal Server Error', details: 'Error in row deletion: ' + error.message});

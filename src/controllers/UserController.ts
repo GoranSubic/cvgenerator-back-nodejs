@@ -43,7 +43,7 @@ const UserController = {
     delete: async (req, res) => {
         try {
             const deletedUser = await usersQueries.deleteUser(req, res);
-            res.status(200).json({ deletedUser: deletedUser });
+            res.status(204).json({ deletedUser: deletedUser });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(400).json({error: 'Error in row deletion: ' + error.message});

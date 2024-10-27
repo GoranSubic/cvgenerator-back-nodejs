@@ -31,7 +31,7 @@ const CandidateController = {
                 userCandidateRelated = await usersCandidates.createdCandidates(req.user.id, candidateCreated[0].id);
             }
 
-            res.status(200).json({ candidateCreated: candidateCreated[0], userCandidateRelated: userCandidateRelated });
+            res.status(201).json({ candidateCreated: candidateCreated[0], userCandidateRelated: userCandidateRelated });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(500).json({error: 'Internal Server Error', details: 'Error in insert new record: ' + error.message});
@@ -66,7 +66,7 @@ const CandidateController = {
     delete: async (req, res) => {
         try {
             const deletedCandidate = await candidatesQueries.deleteCandidate(req, res);
-            res.status(200).json({ deletedCandidate: deletedCandidate });
+            res.status(204).json({ deletedCandidate: deletedCandidate });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(500).json({error: 'Internal Server Error', details: 'Error in row deletion: ' + error.message});

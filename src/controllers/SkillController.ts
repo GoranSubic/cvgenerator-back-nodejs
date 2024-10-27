@@ -14,7 +14,7 @@ const SkillController = {
     post: async (req, res) => {
         try {
             const skillCreated = await skillsQueries.createSkill(req);
-            res.status(200).json({ skillCreated: skillCreated });
+            res.status(201).json({ skillCreated: skillCreated });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(500).json({error: 'Internal Server Error', details: 'Error in insert new record: ' + error.message});
@@ -43,7 +43,7 @@ const SkillController = {
     delete: async (req, res) => {
         try {
             const deletedSkill = await skillsQueries.deleteSkill(req, res);
-            res.status(200).json({ deletedSkill: deletedSkill });
+            res.status(204).json({ deletedSkill: deletedSkill });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(500).json({error: 'Internal Server Error', details: 'Error in row deletion: ' + error.message});

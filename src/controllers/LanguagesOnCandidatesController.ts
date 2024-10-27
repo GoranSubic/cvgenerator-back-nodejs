@@ -23,7 +23,7 @@ const LanguagesOnCandidatesController = {
     delete: async (req, res) => {
         try {
             const deletedLanguageOnCandidate = await languagesOnCandidates.deleteLanguagesOnCandidatesById(req, res);
-            res.status(200).json({ deletedLanguageOnCandidate: deletedLanguageOnCandidate });
+            res.status(204).json({ deletedLanguageOnCandidate: deletedLanguageOnCandidate });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(500).json({error: 'Internal Server Error', details: 'Error in row deletion: ' + error.message});
@@ -33,7 +33,7 @@ const LanguagesOnCandidatesController = {
     post: async (req, res) => {
         try {
             const languageCreated = await languagesOnCandidates.createLanguagesOnCandidatesRelated(req);
-            res.status(200).json({ languageCreated: languageCreated });
+            res.status(201).json({ languageCreated: languageCreated });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(500).json({error: 'Internal Server Error', details: 'Error in insert new record: ' + error.message});
@@ -62,7 +62,7 @@ const LanguagesOnCandidatesController = {
     deleteRelated: async (req, res) => {
         try {
             const deletedLanguage = await languagesOnCandidates.deleteRelated(req, res);
-            res.status(200).json({ deletedLanguageOnCandidateRelated: deletedLanguage });
+            res.status(204).json({ deletedLanguageOnCandidateRelated: deletedLanguage });
         } catch (error) {
             console.log('Error: ' + error.message);
             res.status(500).json({error: 'Internal Server Error', details: 'Error in row deletion: ' + error.message});
