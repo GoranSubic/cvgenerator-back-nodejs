@@ -19,7 +19,7 @@ router.param("candidatesEducationsId", async (req, res, next, candidatesEducatio
     try {
         const educationOnCandidate = await educationsOnCandidates.getEducationOnCandidate(candidatesEducationsId);
         if ((educationOnCandidate ?? undefined) === undefined) {
-            res.status(400).send({msg: `There is no Education on Candidate with id ${candidatesEducationsId}`}).end();
+            res.status(404).json({error: 'Not Found.', details: `There is no Education on Candidate with id ${candidatesEducationsId}`});
         } else {
             res.locals.educationOnCandidate = educationOnCandidate;
             next(); // execute next action - get/put/delete
@@ -43,7 +43,7 @@ router.param("candidateId", async (req, res, next, candidateId) => {
         const resultEducations = await educationsOnCandidates.getEducationsOnCandidatesByIdsRelated(candidateId, educationId);
 
         if (((resultEducations ?? undefined) === undefined) || (resultEducations.length === 0)) {
-            res.status(400).send({msg: `Candidate with id ${candidateId} is not related with education.`}).end();
+            res.status(404).json({error: 'Not Found.', details: `Candidate with id ${candidateId} is not related with education.`});
         } else {
             res.locals.educationsOnCandidate = resultEducations;
             next(); // execute next action - get/put/delete

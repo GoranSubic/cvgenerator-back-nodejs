@@ -19,7 +19,7 @@ router.param("candidatesLanguagesId", async (req, res, next, candidatesLanguages
     try {
         const languageOnCandidate = await languagesOnCandidates.getLanguageOnCandidate(candidatesLanguagesId);
         if ((languageOnCandidate ?? undefined) === undefined) {
-            res.status(400).send({msg: `There is no Language on Candidate with id ${candidatesLanguagesId}`}).end();
+            res.status(404).json({error: 'Not Found.', details: `There is no Language on Candidate with id ${candidatesLanguagesId}`});
         } else {
             res.locals.languageOnCandidate = languageOnCandidate;
             next(); // execute next action - get/put/delete
@@ -43,7 +43,7 @@ router.param("candidateId", async (req, res, next, candidateId) => {
         const resultLanguages = await languagesOnCandidates.getLanguagesOnCandidatesByIdsRelated(candidateId, languageId);
 
         if (((resultLanguages ?? undefined) === undefined) || (resultLanguages.length === 0)) {
-            res.status(400).send({msg: `Candidate with id ${candidateId} is not related with language.`}).end();
+            res.status(404).json({error: 'Not Found.', details: `Candidate with id ${candidateId} is not related with language.`});
         } else {
             res.locals.languagesOnCandidate = resultLanguages;
             next(); // execute next action - get/put/delete

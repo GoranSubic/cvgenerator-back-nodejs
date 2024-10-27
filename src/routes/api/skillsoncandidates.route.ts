@@ -19,7 +19,7 @@ router.param("candidatesSkillsId", async (req, res, next, candidatesSkillsId) =>
     try {
         const skillOnCandidate = await skillsOnCandidates.getSkillOnCandidate(candidatesSkillsId);
         if ((skillOnCandidate ?? undefined) === undefined) {
-            res.status(400).send({msg: `There is no Skill on Candidate with id ${candidatesSkillsId}`}).end();
+            res.status(404).json({error: 'Not Found.', details: `There is no Skill on Candidate with id ${candidatesSkillsId}`});
         } else {
             res.locals.skillOnCandidate = skillOnCandidate;
             next(); // execute next action - get/put/delete
@@ -43,7 +43,7 @@ router.param("candidateId", async (req, res, next, candidateId) => {
         const resultSkills = await skillsOnCandidates.getSkillsOnCandidatesByIdsRelated(candidateId, skillId);
 
         if (((resultSkills ?? undefined) === undefined) || (resultSkills.length === 0)) {
-            res.status(400).send({msg: `Candidate with id ${candidateId} is not related with skill.`}).end();
+            res.status(404).json({error: 'Not Found.', details: `Candidate with id ${candidateId} is not related with skill.`});
         } else {
             res.locals.skillsOnCandidate = resultSkills;
             next(); // execute next action - get/put/delete

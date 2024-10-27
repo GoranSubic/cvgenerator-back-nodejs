@@ -19,7 +19,7 @@ router.param("candidatesCoursesId", async (req, res, next, candidatesCoursesId) 
     try {
         const courseOnCandidate = await coursesOnCandidates.getCourseOnCandidate(candidatesCoursesId);
         if ((courseOnCandidate ?? undefined) === undefined) {
-            res.status(400).send({msg: `There is no Course on Candidate with id ${candidatesCoursesId}`}).end();
+            res.status(404).json({error: 'Not Found.', details: `There is no Course on Candidate with id ${candidatesCoursesId}`});
         } else {
             res.locals.courseOnCandidate = courseOnCandidate;
             next(); // execute next action - get/put/delete
@@ -43,7 +43,7 @@ router.param("candidateId", async (req, res, next, candidateId) => {
         const resultCourses = await coursesOnCandidates.getCoursesOnCandidatesByIdsRelated(candidateId, courseId);
 
         if (((resultCourses ?? undefined) === undefined) || (resultCourses.length === 0)) {
-            res.status(400).send({msg: `Candidate with id ${candidateId} is not related with course.`}).end();
+            res.status(404).json({error: 'Not Found.', details: `Candidate with id ${candidateId} is not related with course.`});
         } else {
             res.locals.coursesOnCandidate = resultCourses;
             next(); // execute next action - get/put/delete

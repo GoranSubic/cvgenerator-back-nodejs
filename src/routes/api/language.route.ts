@@ -20,7 +20,7 @@ router.param("id", async (req, res, next, id) => {
     try {
         const resultLanguage = await LanguagesQueries.getLanguage(id);
         if ((resultLanguage ?? undefined) === undefined) {
-            res.status(400).send({msg: `There is no language with id ${id}`}).end();
+            res.status(404).json({error: 'Not Found.', details: `There is no language with id ${id}`});
         } else {
             res.locals.language = resultLanguage;
             next(); // execute next action - get/put/delete

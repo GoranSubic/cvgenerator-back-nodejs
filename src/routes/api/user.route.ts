@@ -20,7 +20,7 @@ router.param("id", async (req, res, next, id) => {
     try {
         const resultUser = await UsersQueries.getUser(id);
         if ((resultUser ?? undefined) === undefined) {
-            res.status(400).send({msg: `There is no user with id ${id}`}).end();
+            res.status(404).json({error: 'Not Found.', details: `There is no user with id ${id}`});
         } else {
             res.locals.user = resultUser;
             next(); // execute next action - get/put/delete

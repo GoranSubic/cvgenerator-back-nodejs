@@ -19,7 +19,7 @@ router.param("candidatesJobsId", async (req, res, next, id) => {
     try {
         const jobOnCandidate = await JobsOnCandidatesQueries.getCJ(id);
         if ((jobOnCandidate ?? undefined) === undefined) {
-            res.status(400).send({msg: `There is no Job on Candidate with id ${id}`}).end();
+            res.status(404).json({error: 'Not Found.', details: `There is no Job on Candidate with id ${id}`});
         } else {
             res.locals.jobOnCandidate = jobOnCandidate;
             next(); // execute next action - get/put/delete
@@ -42,7 +42,7 @@ router.param("candidateId", async (req, res, next, candidateId) => {
         const resultJobs = await JobsOnCandidatesQueries.getCandidatesJobById(candidateId, req.params.jobId);
 
         if (((resultJobs ?? undefined) === undefined) || (resultJobs.length === 0)) {
-            res.status(400).send({msg: `Candidate with id ${candidateId} is not related with job.`}).end();
+            res.status(404).json({error: 'Not Found.', details: `Candidate with id ${candidateId} is not related with job.`});
         } else {
             res.locals.jobsOnCandidate = resultJobs;
             next(); // execute next action - get/put/delete

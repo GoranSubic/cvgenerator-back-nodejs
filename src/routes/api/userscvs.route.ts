@@ -15,7 +15,7 @@ router.param("usersCvsId", async (req, res, next, usersCvsId) => {
     try {
         const userCv = await usersCvs.getUserCv(usersCvsId);
         if ((userCv ?? undefined) === undefined) {
-            res.status(400).send({msg: `There is no UsersCvs relation with id ${usersCvsId}`}).end();
+            res.status(404).json({error: 'Not Found.', details: `There is no UsersCvs relation with id ${usersCvsId}`});
         } else {
             res.locals.userCv = userCv;
             next(); // execute next action - get/put/delete
@@ -37,7 +37,7 @@ router.param("cvId", async (req, res, next, cvId) => {
         const resultUsersCvs = await usersCvs.getUsersCvsByIdsRelated(cvId, userId);
 
         if (((resultUsersCvs ?? undefined) === undefined) || (resultUsersCvs.length === 0)) {
-            res.status(400).send({msg: `Cv with id ${cvId} is not related with user.`}).end();
+            res.status(404).json({error: 'Not Found.', details: `Cv with id ${cvId} is not related with user.`}).end();
         } else {
             res.locals.usersCv = resultUsersCvs;
             next(); // execute next action - get/put/delete

@@ -20,7 +20,7 @@ router.param("id", async (req, res, next, id) => {
     try {
         const resultJob = await JobsQueries.getJob(id);
         if ((resultJob ?? undefined) === undefined) {
-            res.status(400).send({msg: `There is no job with id ${id}`}).end();
+            res.status(404).json({error: 'Not Found.', details: `There is no job with id ${id}`});
         } else {
             res.locals.job = resultJob;
             next(); // execute next action - get/put/delete

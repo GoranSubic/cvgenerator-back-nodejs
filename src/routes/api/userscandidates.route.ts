@@ -18,7 +18,7 @@ router.param("usersCandidatesId", async (req, res, next, usersCandidatesId) => {
     try {
         const userCandidate = await usersCandidates.getUserCandidate(usersCandidatesId);
         if ((userCandidate ?? undefined) === undefined) {
-            res.status(400).send({msg: `There is no UsersCandidates relation with id ${usersCandidatesId}`}).end();
+            res.status(404).json({error: 'Not Found.', details: `There is no UsersCandidates relation with id ${usersCandidatesId}`});
         } else {
             res.locals.userCandidate = userCandidate;
             next(); // execute next action - get/put/delete
@@ -40,7 +40,7 @@ router.param("candidateId", async (req, res, next, candidateId) => {
         const resultUsersCandidates = await usersCandidates.getUsersCandidatesByIdsRelated(candidateId, userId);
 
         if (((resultUsersCandidates ?? undefined) === undefined) || (resultUsersCandidates.length === 0)) {
-            res.status(400).send({msg: `Candidate with id ${candidateId} is not related with user.`}).end();
+            res.status(404).json({error: 'Not Found.', details: `Candidate with id ${candidateId} is not related with user.`});
         } else {
             res.locals.usersCandidate = resultUsersCandidates;
             next(); // execute next action - get/put/delete
