@@ -7,7 +7,7 @@ const SkillsOnCandidatesController = {
             res.status(200).json({ skillsOnCandidates: resultElements });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.sendStatus('Error in row selection: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row selection: ' + error.message});
         }
     },
 
@@ -16,7 +16,7 @@ const SkillsOnCandidatesController = {
             res.status(200).json({ skillOnCandidate: res.locals.skillOnCandidate });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.sendStatus('Error in row selection: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row selection: ' + error.message});
         }
     },
 
@@ -45,7 +45,7 @@ const SkillsOnCandidatesController = {
             res.status(200).json({ skillsOnCandidates: res.locals.skillsOnCandidate });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.sendStatus('Error in row selection: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row selection: ' + error.message});
         }
     },
 

@@ -7,7 +7,7 @@ const CoursesOnCandidatesController = {
             res.status(200).json({ coursesOnCandidates: resultElements });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.sendStatus('Error in row selection: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row selection: ' + error.message});
         }
     },
 
@@ -16,7 +16,7 @@ const CoursesOnCandidatesController = {
             res.status(200).json({ courseOnCandidate: res.locals.courseOnCandidate });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.sendStatus('Error in row selection: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row selection: ' + error.message});
         }
     },
 
@@ -26,7 +26,7 @@ const CoursesOnCandidatesController = {
             res.status(200).json({ deletedCourseOnCandidate: deletedCourseOnCandidate });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.status(400).send('Error in row deletion: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row deletion: ' + error.message});
         }
     },
 
@@ -36,7 +36,7 @@ const CoursesOnCandidatesController = {
             res.status(200).json({ courseCreatedRelated: courseCreated });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.status(400).send('Error in insert new record: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in insert new record: ' + error});
         }
     },
 
@@ -45,7 +45,7 @@ const CoursesOnCandidatesController = {
             res.status(200).json({ coursesOnCandidates: res.locals.coursesOnCandidate });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.sendStatus('Error in row selection: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row selection: ' + error.message});
         }
     },
 
@@ -55,7 +55,7 @@ const CoursesOnCandidatesController = {
             res.status(200).json({ courseOnCandidateUpdated: courseOnCandidateUpdated });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.status(400).send('Error in row update: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row update: ' + error.message});
         }
     },
 
@@ -65,7 +65,7 @@ const CoursesOnCandidatesController = {
             res.status(200).json({ deletedCourseOnCandidate: deletedCourse });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.status(400).send('Error in row deletion: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row deletion: ' + error.message});
         }
     }
 }

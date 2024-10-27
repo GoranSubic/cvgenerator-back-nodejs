@@ -7,7 +7,7 @@ const UsersCvsController = {
             res.status(200).json({ usersCvs: resultElements });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.sendStatus('Error in row selection: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row selection: ' + error.message});
         }
     },
 
@@ -16,7 +16,7 @@ const UsersCvsController = {
             res.status(200).json({ userCv: res.locals.userCv });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.sendStatus('Error in row selection: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row selection: ' + error.message});
         }
     },
 
@@ -25,7 +25,7 @@ const UsersCvsController = {
             res.status(200).json({ usersCvs: res.locals.usersCv });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.sendStatus('Error in row selection: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row selection: ' + error.message});
         }
     },
 }

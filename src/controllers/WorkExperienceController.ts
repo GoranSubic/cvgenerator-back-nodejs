@@ -7,7 +7,7 @@ const WorkExperienceController = {
             res.status(200).json({ workExperiences: resultElements });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.sendStatus('Error in row selection: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row selection: ' + error.message});
         }
     },
 
@@ -17,7 +17,7 @@ const WorkExperienceController = {
             res.status(200).json({ workExperienceCreated: workExperienceCreated });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.status(400).send('Error in insert new record: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in insert new record: ' + error.message});
         }
     },
 
@@ -26,7 +26,7 @@ const WorkExperienceController = {
             res.status(200).json({ workExperience: res.locals.workExperience });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.sendStatus('Error in row selection: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row selection: ' + error.message});
         }
     },
 
@@ -35,7 +35,7 @@ const WorkExperienceController = {
             res.status(200).json({ resultWorkExperiences: res.locals.workExperiencesByCandidate });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.status(400).send('Error in row update: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row selection: ' + error.message});
         }
     },
 
@@ -45,7 +45,7 @@ const WorkExperienceController = {
             res.status(200).json({ workExperienceUpdated: workExperienceUpdated });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.status(400).send('Error in row update: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row update: ' + error.message});
         }
     },
 
@@ -55,7 +55,7 @@ const WorkExperienceController = {
             res.status(200).json({ deletedWorkExperience: deletedWorkExperience });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.status(400).send('Error in row deletion: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row deletion: ' + error.message});
         }
     }
 }

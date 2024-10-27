@@ -7,7 +7,7 @@ const JobsOnCandidatesController = {
             res.status(200).json({ jobsOnCandidates: resultElements });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.sendStatus('Error in row selection: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row selection: ' + error.message});
         }
     },
 
@@ -16,7 +16,7 @@ const JobsOnCandidatesController = {
             res.status(200).json({ jobOnCandidate: res.locals.jobOnCandidate });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.sendStatus('Error in row selection: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row selection: ' + error.message});
         }
     },
 
@@ -26,7 +26,7 @@ const JobsOnCandidatesController = {
             res.status(200).json({ deletedJobOnCandidate: deletedJobOnCandidate });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.status(400).send('Error in row deletion: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row deletion: ' + error.message});
         }
     },
 
@@ -36,7 +36,7 @@ const JobsOnCandidatesController = {
             res.status(200).json({ jobCreated: jobCreated });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.status(400).send('Error in insert new record: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in insert new record: ' + error.message});
         }
     },
 
@@ -45,7 +45,7 @@ const JobsOnCandidatesController = {
             res.status(200).json({ jobsOnCandidates: res.locals.jobsOnCandidate });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.sendStatus('Error in row selection: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row selection: ' + error.message});
         }
     },
 
@@ -65,7 +65,7 @@ const JobsOnCandidatesController = {
             res.status(200).json({ deletedJobOnCandidateRelated: deletedJob });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.status(400).send('Error in row deletion: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row deletion: ' + error.message});
         }
     }
 }

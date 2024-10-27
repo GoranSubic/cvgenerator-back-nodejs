@@ -8,7 +8,7 @@ const CandidateController = {
             res.status(200).json({ candidates: resultElements });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.sendStatus('Error in row selection: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row selection: ' + error.message});
         }
     },
 
@@ -18,7 +18,7 @@ const CandidateController = {
             res.status(200).json({ candidates: resultElements });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.sendStatus('Error in row selection: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row selection: ' + error.message});
         }
     },
 
@@ -34,7 +34,7 @@ const CandidateController = {
             res.status(200).json({ candidateCreated: candidateCreated[0], userCandidateRelated: userCandidateRelated });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.status(400).send('Error in insert new record: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in insert new record: ' + error.message});
         }
     },
 
@@ -43,7 +43,7 @@ const CandidateController = {
             res.status(200).json({ candidate: res.locals.candidate });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.sendStatus('Error in row selection: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row selection: ' + error.message});
         }
     },
 
@@ -59,7 +59,7 @@ const CandidateController = {
             res.status(200).json({ candidateUpdated: candidateUpdated, userCandidateRelated: userCandidateRelated });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.status(400).send('Error in row update: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row update: ' + error.message});
         }
     },
 
@@ -69,7 +69,7 @@ const CandidateController = {
             res.status(200).json({ deletedCandidate: deletedCandidate });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.status(400).send('Error in row deletion: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row deletion: ' + error.message});
         }
     }
 }

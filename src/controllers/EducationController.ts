@@ -7,7 +7,7 @@ const EducationController = {
             res.status(200).json({ educations: resultElements });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.sendStatus('Error in row selection: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row selection: ' + error.message});
         }
     },
 
@@ -17,7 +17,7 @@ const EducationController = {
             res.status(200).json({ educationCreated: educationCreated });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.status(400).send('Error in insert new record: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in insert new record: ' + error.message});
         }
     },
 
@@ -26,7 +26,7 @@ const EducationController = {
             res.status(200).json({ education: res.locals.education });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.sendStatus('Error in row selection: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row selection: ' + error.message});
         }
     },
 
@@ -36,7 +36,7 @@ const EducationController = {
             res.status(200).json({ educationUpdated: educationUpdated });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.status(400).send('Error in row update: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row update: ' + error.message});
         }
     },
 
@@ -46,7 +46,7 @@ const EducationController = {
             res.status(200).json({ deletedEducation: deletedEducation });
         } catch (error) {
             console.log('Error: ' + error.message);
-            res.status(400).send('Error in row deletion: ' + error.message);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error in row deletion: ' + error.message});
         }
     }
 }
