@@ -9,7 +9,7 @@ const AuthMiddleware = {
         const { authorization } = req.headers;
     
         if (!authorization) {
-            res.status(401).json({msg: '🚫 Un-Authorized 🚫'}).end();
+            res.status(401).json({msg: '🚫 Un-Authorized 🚫'});
         }
     
         try {
@@ -18,9 +18,9 @@ const AuthMiddleware = {
             req.user = payload;
         } catch (err) {
             if (err.name === 'TokenExpiredError') {
-                res.status(401).json({msg: '🚫 Un-Authorized 🚫 ', error: err.name }).end();
+                res.status(401).json({msg: '🚫 Un-Authorized 🚫 ', error: err.name });
             }
-            res.status(401).json({msg: '🚫 Un-Authorized 🚫'}).end();
+            res.status(401).json({msg: '🚫 Un-Authorized 🚫'});
         }
     
         return next();
