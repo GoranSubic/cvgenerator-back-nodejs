@@ -15,15 +15,13 @@ class AuthController {
         try {
             const { email, password, firstName, lastName } = req.body;
             if (!email || !password) {
-                res.status(400);
-                throw new Error('You must provide an email and a password.');
+                return res.status(400).json({ error: 'Bad Request.', details: 'You must provide an email and a password.' });
             }
 
             const existingUser = await authQueries.findUserByEmail(email);
 
             if (existingUser) {
-                res.status(400);
-                throw new Error('Email already in use.');
+                return res.status(400).json({ error: 'Bad Request.', details: 'Email already in use' });
             }
 
             const user = await authQueries.createUserByEmailAndPassword({ email, password, firstName, lastName });
@@ -33,7 +31,7 @@ class AuthController {
 
             res.status(200).json({ accessToken: accessToken, refreshToken: refreshToken });
         } catch (error) {
-            next(error);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error, register route: ' + error.message});
         }
     };
 
@@ -63,7 +61,7 @@ class AuthController {
 
             res.status(200).json({ accessToken: accessToken, refreshToken: refreshToken });
         } catch (error) {
-            next(error);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error, login route: ' + error.message});
         }
     };
 
@@ -73,7 +71,7 @@ class AuthController {
             await AuthService.deleteRefreshToken(refreshToken);
             res.status(200).json({ message: 'Successfully logged out.' });
         } catch (error) {
-            next(error);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error, logout route: ' + error.message});
         }
     }
 
@@ -112,7 +110,7 @@ class AuthController {
 
             res.status(200).json({ accessToken: accessToken, refreshToken: newRefreshToken });
         } catch (error) {
-            next(error);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error, refreshToken route: ' + error.message});
         }
       };
 
@@ -123,7 +121,7 @@ class AuthController {
             await AuthService.revokeTokens(userId);
             res.json({ message: `Tokens revoked for user with id #${userId}` });
         } catch (err) {
-            next(err);
+            res.status(500).json({error: 'Internal Server Error', details: 'Error, revokeRefreshTokens route: ' + error.message});
         }
     };
 }
