@@ -1,6 +1,8 @@
 import express from 'express';
+import { body, param, validationResult } from 'express-validator';
 import CandidateController from '../../controllers/CandidateController';
 import candidatesQueries from '../../../database/queries/candidates';
+import { createValidator, updateValidator } from '../../request-validators/CandidateValidator';
 const router = express.Router();
 
 // Gets all candidates.
@@ -17,12 +19,12 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.post("/", CandidateController.post);
+router.post("/", createValidator, CandidateController.post);
 
 router
-    .route("/:id")
+    .route("/:id([0-9]+)")
     .get(CandidateController.getId)
-    .put(CandidateController.put)
+    .put(updateValidator, CandidateController.put)
     .delete(CandidateController.delete)
 
 // Middleware.

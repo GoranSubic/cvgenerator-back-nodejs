@@ -1,8 +1,10 @@
+import express, { Request, Response } from "express";
+import { validationResult } from 'express-validator';
 import candidatesQueries from '../../database/queries/candidates';
 import usersCandidates from '../../database/queries/Candidate/UsersCandidates';
 
 const CandidateController = {
-    getAll: async (req, res) => {
+    getAll: async (req: Request, res: Response) => {
         try {
             const resultElements = await candidatesQueries.getCandidatesAll();
             res.status(200).json({ candidates: resultElements });
@@ -12,7 +14,7 @@ const CandidateController = {
         }
     },
 
-    get: async (req, res) => {
+    get: async (req: Request, res: Response) => {
         try {
             const resultElements = await candidatesQueries.getCandidates();
             res.status(200).json({ candidates: resultElements });
@@ -22,7 +24,12 @@ const CandidateController = {
         }
     },
 
-    post: async (req, res) => {
+    post: async (req: Request, res: Response) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
         try {
             const candidateCreated = await candidatesQueries.createCandidate(req);
 
@@ -38,7 +45,7 @@ const CandidateController = {
         }
     },
 
-    getId: async (req, res) => {
+    getId: async (req: Request, res: Response) => {
         try {
             res.status(200).json({ candidate: res.locals.candidate });
         } catch (error) {
@@ -47,7 +54,12 @@ const CandidateController = {
         }
     },
 
-    put: async (req, res) => {
+    put: async (req: Request, res: Response) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
         try {
             const candidateUpdated = await candidatesQueries.updateCandidate(req, res);
 
@@ -63,7 +75,7 @@ const CandidateController = {
         }
     },
 
-    delete: async (req, res) => {
+    delete: async (req: Request, res: Response) => {
         try {
             const deletedCandidate = await candidatesQueries.deleteCandidate(req, res);
             res.status(204).json({ deletedCandidate: deletedCandidate });
