@@ -60,7 +60,7 @@ async function createdCandidates(payloadUserId: number, resultCandidateId: numbe
     return result;
 }
 
-async function updatedCandidates(payloadUserId: number, resultCandidateId: number, updatedFields: JsonObject, resultAction: string | undefined) {
+async function updatedCandidates(payloadUserId: number, resultCandidateId: number, resultAction?: string | undefined, updatedFields?: JsonObject|undefined) {
     const userId: number = + payloadUserId;
     const candidateId: number = + resultCandidateId;
 

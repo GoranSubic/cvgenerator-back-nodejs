@@ -31,7 +31,24 @@ const CandidateController = {
         }
 
         try {
-            const candidateCreated = await candidatesQueries.createCandidate(req);
+            const fields: { [key: string]: string|number|boolean|null } = {
+                enabled: req.body.enabled ?? null,
+                slug: req.body.slug ?? null,
+                first_name: req.body.firstName ?? null,
+                last_name: req.body.lastName ?? null,
+                email: req.body.email ?? null,
+                description: req.body.description ?? null,
+                gender: req.body.gender ? (+ req.body.gender) : null,
+                birth_day: req.body.birthDay ?? null,
+                image: req.body.image ?? null,
+                address: req.body.address ?? null,
+                city: req.body.city ?? null,
+                state: req.body.state ?? null,
+                occupation: req.body.occupation ?? null,
+                hobbies: req.body.hobbies ?? null,
+            };
+
+            const candidateCreated = await candidatesQueries.createCandidate(fields);
 
             let userCandidateRelated = null;
             if (req.user !== undefined) {
@@ -65,7 +82,9 @@ const CandidateController = {
 
             let userCandidateRelated = null;
             if (req.user !== undefined) {
-                userCandidateRelated = await usersCandidates.updatedCandidates(req.user.id, candidateUpdated.id, req.body, 'UPDATE');
+                // To do - Filter out not existing candidates fields from request body.
+
+                userCandidateRelated = await usersCandidates.updatedCandidates(req.user.id, candidateUpdated.id, 'UPDATE', req.body);
             }
 
             res.status(200).json({ candidateUpdated: candidateUpdated, userCandidateRelated: userCandidateRelated });
@@ -77,7 +96,7 @@ const CandidateController = {
 
     delete: async (req: Request, res: Response) => {
         try {
-            const deletedCandidate = await candidatesQueries.deleteCandidate(req, res);
+            const deletedCandidate = await candidatesQueries.deleteCandidate(req.user, res.locals.candidate.id);
             res.status(204).json({ deletedCandidate: deletedCandidate });
         } catch (error) {
             console.log('Error: ' + error.message);

@@ -3,6 +3,7 @@ import { Candidate } from "../../generated/client";
 import prismaAll from "../client";
 import prisma from "../prisma-client-extension/deleted-extension";
 import usersCandidates from "./Candidate/UsersCandidates";
+import { User } from "../../generated/client";
 
 async function getCandidatesAll() {
     const results: Candidate[] | null = await prismaAll.candidate.findMany({
@@ -34,7 +35,7 @@ async function getCandidates() {
     return results;
 }
 
-async function getCandidate(candidateId) {
+async function getCandidate(candidateId: number|string) {
     const inputId: number = + candidateId;
 
     const result: Candidate | null = await prisma.candidate.findUnique({
@@ -46,25 +47,8 @@ async function getCandidate(candidateId) {
     return result;
 }
 
-async function createCandidate(request: Request) {
-    const fields: { [key: string]: string|number|boolean } = {
-        enabled: request.body.enabled ?? null,
-        slug: request.body.slug ?? null,
-        first_name: request.body.firstName ?? null,
-        last_name: request.body.lastName ?? null,
-        email: request.body.email ?? null,
-        description: request.body.description ?? null,
-        gender: request.body.gender ?? null,
-        birth_day: request.body.birthDay ?? null,
-        image: request.body.image ?? null,
-        address: request.body.address ?? null,
-        city: request.body.city ?? null,
-        state: request.body.state ?? null,
-        occupation: request.body.occupation ?? null,
-        hobbies: request.body.hobbies ?? null,
-    };
-
-    const valuesArr: (string | number | boolean)[] = [];
+async function createCandidate(fields: (string|number|boolean|null)[]) {
+    const valuesArr: (string | number | boolean | null)[] = [];
 
     let i = 1;
     let fieldsPrepStat: (string)[] = [];
@@ -136,9 +120,15 @@ async function updateCandidate(request: Request, response: Response) {
     return resultCandidate;
 }
 
-async function deleteCandidate(request: Request, response: Response) {
-    const user = request.user;
-    const candidateId = response.locals.candidate.id;
+async function deleteCandidate(requestUser: User, resCandidateId: number) {
+    const user = requestUser;
+    const candidateId = resCandidateId;
+
+    if ((user ?? undefined) === undefined) {
+        let err = new Error;
+        err.message = 'Problem with user in request.';
+        throw err;
+    }
     
     const resultDeleted = await prisma.candidate.delete({
         where: {
@@ -146,10 +136,8 @@ async function deleteCandidate(request: Request, response: Response) {
         },
     });
 
-    if (user != undefined && user.id) {
-        const userCandidateRelated = await usersCandidates.updatedCandidates(user.id, resultDeleted.id, request.body, 'deleted');
-        resultDeleted.userCandidateRelated = userCandidateRelated;
-    }
+    const userCandidateRelated = await usersCandidates.updatedCandidates(user.id, resultDeleted.id, 'deleted');
+    resultDeleted.userCandidateRelated = userCandidateRelated;
 
     return resultDeleted;
 }

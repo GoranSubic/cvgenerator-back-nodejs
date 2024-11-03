@@ -2,7 +2,7 @@ import express from 'express';
 import { body, param, validationResult } from 'express-validator';
 import CandidateController from '../../controllers/CandidateController';
 import candidatesQueries from '../../../database/queries/candidates';
-import { createValidator, updateValidator } from '../../request-validators/CandidateValidator';
+import { createValidator, updateValidator, deleteValidator } from '../../request-validators/CandidateValidator';
 const router = express.Router();
 
 // Gets all candidates.
@@ -25,7 +25,7 @@ router
     .route("/:id([0-9]+)")
     .get(CandidateController.getId)
     .put(updateValidator, CandidateController.put)
-    .delete(CandidateController.delete)
+    .delete(deleteValidator, CandidateController.delete)
 
 // Middleware.
 router.param("id", async (req, res, next, id) => {
