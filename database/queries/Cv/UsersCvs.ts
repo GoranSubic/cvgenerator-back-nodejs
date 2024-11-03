@@ -1,7 +1,7 @@
 import { UsersCvs } from "../../../generated/client";
 import prisma from "../../client";
 
-async function getUserCv(userCvId: Number) {
+async function getUserCv(userCvId: number) {
     const inputId = + userCvId;
     const result: UsersCvs | null = await prisma.usersCvs.findUnique({
         where: {

@@ -1,7 +1,7 @@
 import { JobsOnCandidates } from "../../../generated/client";
 import prisma from "../../client";
 
-async function getCJ(cjId: Number) {
+async function getCJ(cjId: number) {
     const inputId = + cjId;
     const result: JobsOnCandidates | null = await prisma.jobsOnCandidates.findUnique({
         where: {
@@ -57,7 +57,7 @@ async function getCandidatesJobById(candidateId, jobId?) {
 }
 
 async function deleteById(request, response) {
-    const jobOnCandidateId: Number = + response.locals.jobOnCandidate.id;
+    const jobOnCandidateId: number = + response.locals.jobOnCandidate.id;
 
     const results = await prisma.jobsOnCandidates.delete({
         where: {
@@ -90,7 +90,7 @@ async function createJobsOnCandidates(request) {
 
 // async function updateRelated(request, response) {
 //     const assignedBy: number = request.user ? request.user.id : 0;
-//     let jobOnCandidateIds: Number[] | null = null;
+//     let jobOnCandidateIds: number[] | null = null;
 
 //     if ((response.locals.jobsOnCandidate ?? undefined) !== undefined) {
 //         jobOnCandidateIds = response.locals.jobsOnCandidate.map((candidate: JobsOnCandidates) => {

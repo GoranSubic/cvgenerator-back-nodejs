@@ -2,7 +2,7 @@ import { JsonObject } from "@prisma/client/runtime/library";
 import { UsersCandidates } from "../../../generated/client";
 import prisma from "../../client";
 
-async function getUserCandidate(userCandidateId: Number) {
+async function getUserCandidate(userCandidateId: number) {
     const inputId = + userCandidateId;
     const result: UsersCandidates | null = await prisma.usersCandidates.findUnique({
         where: {

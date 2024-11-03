@@ -1,7 +1,7 @@
 import { CoursesOnCandidates } from "../../../generated/client";
 import prisma from "../../client";
 
-async function getCourseOnCandidate(courseOnCandidateId: Number) {
+async function getCourseOnCandidate(courseOnCandidateId: number) {
     const inputId = + courseOnCandidateId;
     const result: CoursesOnCandidates | null = await prisma.coursesOnCandidates.findUnique({
         where: {
@@ -81,7 +81,7 @@ async function updateRelated(request, response) {
     const courseDate: Date | null = request.body.courseDate ?? null;
     const organization: string = request.body.organization ?? '';
 
-    let courseOnCandidateIds: Number[] = [];
+    let courseOnCandidateIds: number[] = [];
 
     if ((response.locals.coursesOnCandidate ?? undefined) !== undefined) {
         courseOnCandidateIds = response.locals.coursesOnCandidate.map((candidate: CoursesOnCandidates) => {

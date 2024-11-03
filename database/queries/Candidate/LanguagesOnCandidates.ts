@@ -1,7 +1,7 @@
 import { LanguagesOnCandidates } from "../../../generated/client";
 import prisma from "../../client";
 
-async function getLanguageOnCandidate(languageOnCandidateId: Number) {
+async function getLanguageOnCandidate(languageOnCandidateId: number) {
     const inputId = + languageOnCandidateId;
     const result: LanguagesOnCandidates | null = await prisma.languagesOnCandidates.findUnique({
         where: {
@@ -78,7 +78,7 @@ async function getLanguagesOnCandidatesByIdsRelated(candidateId: number, languag
 async function updateRelated(request, response) {
     const proficiencyLevel: string = request.body.proficiencyLevel ?? '';
 
-    let languageOnCandidateIds: Number[] = [];
+    let languageOnCandidateIds: number[] = [];
 
     if ((response.locals.languagesOnCandidate ?? undefined) !== undefined) {
         languageOnCandidateIds = response.locals.languagesOnCandidate.map((candidate: LanguagesOnCandidates) => {

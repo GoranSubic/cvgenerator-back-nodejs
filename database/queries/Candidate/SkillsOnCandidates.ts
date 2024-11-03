@@ -1,7 +1,7 @@
 import { SkillsOnCandidates } from "../../../generated/client";
 import prisma from "../../client";
 
-async function getSkillOnCandidate(skillOnCandidateId: Number) {
+async function getSkillOnCandidate(skillOnCandidateId: number) {
     const inputId = + skillOnCandidateId;
     const result: SkillsOnCandidates | null = await prisma.skillsOnCandidates.findUnique({
         where: {
@@ -76,7 +76,7 @@ async function getSkillsOnCandidatesByIdsRelated(candidateId: number, skillId?: 
 // async function updateRelated(request, response) {
 //     const assignedBy: number = request.user ? request.user.id : 0;
 
-//     let skillOnCandidateIds: Number[] = [];
+//     let skillOnCandidateIds: number[] = [];
 
 //     if ((response.locals.skillsOnCandidate ?? undefined) !== undefined) {
 //         skillOnCandidateIds = response.locals.skillsOnCandidate.map((candidate: SkillsOnCandidates) => {
