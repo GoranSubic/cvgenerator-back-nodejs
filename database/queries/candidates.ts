@@ -72,48 +72,26 @@ async function createCandidate(fields: (string|number|boolean|null)[]) {
     return result;
 }
 
-async function updateCandidate(request: Request, response: Response) {
-    const candidateId = response.locals.candidate.id;
-    
-    const enabled = request.body.enabled ?? false;
-    const slug = request.body.slug ?? (response.locals.candidate.slug ?? null);
-    const firstName = request.body.firstName ?? (response.locals.candidate.firstName ?? null);
-    const lastName = request.body.lastName ?? (response.locals.candidate.lastName ?? null);
-    const email = (((request.body.email ?? undefined) !== undefined) && (request.body.email !== "")) ? request.body.email :
-        (
-            (((response.locals.candidate.email ?? undefined) !== undefined) && (response.locals.candidate.email !== "")) ?
-            response.locals.candidate.email :
-            null
-        );
-    const description = request.body.description ?? (response.locals.candidate.description ?? null);
-    const gender = request.body.gender ?? (response.locals.candidate.gender ?? null);
-    const birthDay = request.body.birthDay ?? (response.locals.candidate.birthDay ?? null);
-    const image = request.body.image ?? (response.locals.candidate.image ?? null);
-    const address = request.body.address ?? (response.locals.candidate.address ?? null);
-    const city = request.body.city ?? (response.locals.candidate.city ?? null);
-    const state = request.body.state ?? (response.locals.candidate.state ?? null);
-    const occupation = request.body.occupation ?? (response.locals.candidate.occupation ?? null);
-    const hobbies = request.body.hobbies ?? (response.locals.candidate.hobbies ?? null);
-
+async function updateCandidate(fields: (string|number|boolean|null)[]) {
     const resultCandidate = await prisma.candidate.update({
         where: {
-          id: + candidateId,
+          id: + fields.candidateId,
         },
         data: {
-            enabled: enabled,
-            slug: slug,
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            description: description,
-            gender: gender,
-            birthDay: birthDay,
-            image: image,
-            address: address,
-            city: city,
-            state: state,
-            occupation: occupation,
-            hobbies: hobbies,
+            enabled: fields.enabled,
+            slug: fields.slug,
+            firstName: fields.firstName,
+            lastName: fields.lastName,
+            email: fields.email,
+            description: fields.description,
+            gender: fields.gender,
+            birthDay: fields.birthDay,
+            image: fields.image,
+            address: fields.address,
+            city: fields.city,
+            state: fields.state,
+            occupation: fields.occupation,
+            hobbies: fields.hobbies,
         },
     });
 

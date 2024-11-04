@@ -78,12 +78,40 @@ const CandidateController = {
         }
 
         try {
-            const candidateUpdated = await candidatesQueries.updateCandidate(req, res);
+            const fields: { [key: string]: string|number|boolean|null } = {
+                candidateId: res.locals.candidate.id,
+                enabled: req.body.enabled ?? false,
+                slug: req.body.slug ?? (res.locals.candidate.slug ?? null),
+                firstName: req.body.firstName ?? (res.locals.candidate.firstName ?? null),
+                lastName: req.body.lastName ?? (res.locals.candidate.lastName ?? null),
+                email: (((req.body.email ?? undefined) !== undefined) && (req.body.email !== "")) ? req.body.email :
+                    (
+                        (((res.locals.candidate.email ?? undefined) !== undefined) && (res.locals.candidate.email !== "")) ?
+                        res.locals.candidate.email :
+                        null
+                    ),
+                description: req.body.description ?? (res.locals.candidate.description ?? null),
+                gender: req.body.gender ?? (res.locals.candidate.gender ?? null),
+                birthDay: req.body.birthDay ?? (res.locals.candidate.birthDay ?? null),
+                image: req.body.image ?? (res.locals.candidate.image ?? null),
+                address: req.body.address ?? (res.locals.candidate.address ?? null),
+                city: req.body.city ?? (res.locals.candidate.city ?? null),
+                state: req.body.state ?? (res.locals.candidate.state ?? null),
+                occupation: req.body.occupation ?? (res.locals.candidate.occupation ?? null),
+                hobbies: req.body.hobbies ?? (res.locals.candidate.hobbies ?? null)
+            }
+
+            const candidateUpdated = await candidatesQueries.updateCandidate(fields);
 
             let userCandidateRelated = null;
             if (req.user !== undefined) {
-                // To do - Filter out not existing candidates fields from request body.
-
+                // let resultArr = [];
+                for (const key in req.body) {
+                    if (!Object.prototype.hasOwnProperty.call(fields, key)) {
+                        // resultArr.push(fields[key]);
+                        delete req.body[key];
+                    }
+                }
                 userCandidateRelated = await usersCandidates.updatedCandidates(req.user.id, candidateUpdated.id, 'UPDATE', req.body);
             }
 
