@@ -1,4 +1,3 @@
-import { Request, Response } from "express";
 import { Candidate } from "../../generated/client";
 import prismaAll from "../client";
 import prisma from "../prisma-client-extension/deleted-extension";

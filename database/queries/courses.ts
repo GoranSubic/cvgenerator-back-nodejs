@@ -1,3 +1,4 @@
+import { Request, Response } from "express";
 import { Course } from "../../generated/client";
 // import prisma from "../client";
 import prisma from "../prisma-client-extension/deleted-extension";
@@ -24,7 +25,7 @@ async function getCourse(courseId: number) {
     return result;
 }
 
-async function createCourse(request) {
+async function createCourse(request: Request) {
     const title: string = request.body.title ?? null;
 
     const result = await prisma.course.create({
@@ -36,7 +37,7 @@ async function createCourse(request) {
     return result;
 }
 
-async function updateCourse(request, response) {
+async function updateCourse(request: Request, response: Response) {
     const courseId = response.locals.course.id;
     const title: string = request.body.title ?? (response.locals.course.title ?? null);
 
@@ -52,7 +53,7 @@ async function updateCourse(request, response) {
     return result;
 }
 
-async function deleteCourse(request, response) {
+async function deleteCourse(request: Request, response: Response) {
     const courseId: number = + response.locals.course.id;
 
     const results = await prisma.course.delete({

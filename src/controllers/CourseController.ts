@@ -1,7 +1,8 @@
+import { Request, Response } from "express";
 import coursesQueries from '../../database/queries/courses';
 
 const CourseController = {
-    get: async (req, res) => {
+    get: async (req: Request, res: Response) => {
         try {
             const resultElements = await coursesQueries.getCourses();
             res.status(200).json({ courses: resultElements });
@@ -11,7 +12,7 @@ const CourseController = {
         }
     },
 
-    post: async (req, res) => {
+    post: async (req: Request, res: Response) => {
         try {
             const courseCreated = await coursesQueries.createCourse(req);
             res.status(201).json({ courseCreated: courseCreated });
@@ -21,7 +22,7 @@ const CourseController = {
         }
     },
 
-    getId: async (req, res) => {
+    getId: async (req: Request, res: Response) => {
         try {
             res.status(200).json({ course: res.locals.course });
         } catch (error) {
@@ -30,7 +31,7 @@ const CourseController = {
         }
     },
 
-    put: async (req, res) => {
+    put: async (req: Request, res: Response) => {
         try {
             const courseUpdated = await coursesQueries.updateCourse(req, res);
             res.status(200).json({ courseUpdated: courseUpdated });
@@ -40,7 +41,7 @@ const CourseController = {
         }
     },
 
-    delete: async (req, res) => {
+    delete: async (req: Request, res: Response) => {
         try {
             const deletedCourse = await coursesQueries.deleteCourse(req, res);
             res.status(204).json({ deletedCourse: deletedCourse });

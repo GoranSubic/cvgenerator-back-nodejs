@@ -1,3 +1,4 @@
+import { Request, Response, NextFunction } from "express";
 import express from 'express';
 import CourseController from '../../controllers/CourseController';
 import coursesQueries from '../../../database/queries/courses';
@@ -16,7 +17,7 @@ router
     .delete(CourseController.delete)
 
 // Middleware.
-router.param("id", async (req, res, next, id) => {
+router.param("id", async (req: Request, res: Response, next: NextFunction, id: number) => {
     try {
         const resultCourse = await coursesQueries.getCourse(id);
         if ((resultCourse ?? undefined) === undefined) {

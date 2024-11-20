@@ -1,3 +1,4 @@
+import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { config_env as config, node_env } from "../../config/config-env";
 
@@ -5,7 +6,7 @@ const envConfig = config[node_env];
 const accessTokenSecret = envConfig.access_token_secret;
 
 const AuthMiddleware = {
-    isAuthenticated: (req, res, next) => {
+    isAuthenticated: (req: Request, res: Response, next: NextFunction) => {
         const { authorization } = req.headers;
     
         if (!authorization) {

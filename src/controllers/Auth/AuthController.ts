@@ -1,3 +1,4 @@
+import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from 'uuid';
@@ -11,7 +12,7 @@ const envConfig = config[node_env];
 const refreshTokenSecret = envConfig.refresh_token_secret;
 
 class AuthController {
-    async register(req, res, next) {
+    async register(req: Request, res: Response, next: NextFunction) {
         try {
             const { email, password, firstName, lastName } = req.body;
             if (!email || !password) {
@@ -35,7 +36,7 @@ class AuthController {
         }
     };
 
-    async login(req, res, next) {
+    async login(req: Request, res: Response, next: NextFunction) {
         try {
             const { email, password } = req.body;
 
@@ -65,7 +66,7 @@ class AuthController {
         }
     };
 
-    async logout(req, res, next) {
+    async logout(req: Request, res: Response, next: NextFunction) {
         try {
             const { refreshToken } = req.body;
             await AuthService.deleteRefreshToken(refreshToken);
@@ -75,7 +76,7 @@ class AuthController {
         }
     }
 
-    async refreshToken(req, res, next) {
+    async refreshToken(req: Request, res: Response, next: NextFunction) {
         try {
             const { refreshToken } = req.body;
 
@@ -115,7 +116,7 @@ class AuthController {
       };
 
     // Move this logic where needed to revoke the tokens(ex: on password reset)
-    async revokeRefreshTokens(req, res, next) {
+    async revokeRefreshTokens(req: Request, res: Response, next: NextFunction) {
         try {
             const { userId } = req.body;
             await AuthService.revokeTokens(userId);
